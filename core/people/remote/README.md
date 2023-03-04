@@ -1,3 +1,3 @@
-=========================
+# Person Remote
 
-This module needs documentation
+Handles the secure fetching of people data from our api

@@ -1,11 +1,9 @@
-
-
 plugins {
-    id("mifflin.android.feature")
+    id("mifflin.android.library")
 }
 
 android {
-    namespace = "com.dangerfield.mifflin.features.auth.api"
+    namespace = "com.dangerfield.mifflin.core.config.api"
 }
 
 dependencies {

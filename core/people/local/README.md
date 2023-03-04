@@ -1,3 +1,3 @@
-=========================
+# Person Local
 
-This module needs documentation
+Handles the secure storage of people data locally

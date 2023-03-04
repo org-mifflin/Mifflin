@@ -26,6 +26,25 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/core/analytics" />
+            <option value="$PROJECT_DIR$/core/auth" />
+            <option value="$PROJECT_DIR$/core/common" />
+            <option value="$PROJECT_DIR$/core/config" />
+            <option value="$PROJECT_DIR$/core/designsystem" />
+            <option value="$PROJECT_DIR$/core/people" />
+            <option value="$PROJECT_DIR$/core/people/api" />
+            <option value="$PROJECT_DIR$/core/people/local" />
+            <option value="$PROJECT_DIR$/core/people/remote" />
+            <option value="$PROJECT_DIR$/core/session" />
+            <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/auth" />
+            <option value="$PROJECT_DIR$/features/auth/api" />
+            <option value="$PROJECT_DIR$/features/conversation" />
+            <option value="$PROJECT_DIR$/features/matchmaker" />
+            <option value="$PROJECT_DIR$/features/onboarding" />
+            <option value="$PROJECT_DIR$/features/profile" />
           </set>
         </option>
       </GradleProjectSettings>

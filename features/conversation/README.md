@@ -1,3 +1,4 @@
-=========================
+# Conversation
 
-This module needs documentation
+While out of scope, this module represents the home for conversation logic.
+

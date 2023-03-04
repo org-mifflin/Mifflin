@@ -1,3 +1,3 @@
-=========================
+# People API
 
-This module needs documentation
+Exposes people data to features. 
