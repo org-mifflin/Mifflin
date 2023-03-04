@@ -3,10 +3,14 @@ plugins {
 }
 
 android {
-    namespace = "com.dangerfield.mifflin.core.ui"
+    namespace = "com.dangerfield.core.ui"
 }
 
 dependencies {
+    implementation(project(":core:common"))
+
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.androidx.lifecycle.vm)
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)

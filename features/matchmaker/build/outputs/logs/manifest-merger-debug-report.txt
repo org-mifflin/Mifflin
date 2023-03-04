@@ -1,0 +1,25 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml:2:13-83
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml:2:13-83
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml:2:13-83
+	package
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml:2:13-83
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+	xmlns:android
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml:2:23-81
+uses-sdk
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml reason: use-sdk injection requested
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+	android:targetSdkVersion
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+	android:minSdkVersion
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/features/matchmaker/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest5837102040571510331.xml

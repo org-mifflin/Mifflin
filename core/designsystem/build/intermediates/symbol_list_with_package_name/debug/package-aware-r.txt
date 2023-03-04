@@ -1,0 +1,3 @@
+com.dangerfield.core.designsystem
+font montserrat_medium
+font montserrat_regular
