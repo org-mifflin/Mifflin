@@ -1,1 +1,0 @@
-com.dangerfield.core.ui

@@ -1,2 +1,0 @@
-com.dangerfield.mifflin.features.matchmaker
-drawable low_res_image_placeholder
