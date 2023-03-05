@@ -49,6 +49,9 @@ androidx-fragment = "androidx.fragment:fragment:1.5.0"
 androidx-fragment-ktx = "androidx.fragment:fragment-ktx:1.5.0"
 androidx-constraintlayout = "androidx.constraintlayout:constraintlayout:2.1.4"
 
+# Coil
+coil = "io.coil-kt:coil-compose:2.2.2"
+
 #Retrofit
 retrofit = "com.squareup.retrofit2:retrofit:2.9.0"
 retrofit-gson = "com.squareup.retrofit2:converter-gson:2.9.0"

@@ -1,0 +1,1 @@
+int drawable low_res_image_placeholder 0x0

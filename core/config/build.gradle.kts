@@ -1,5 +1,6 @@
 plugins {
     id("mifflin.android.library")
+    id("mifflin.android.hilt")
 }
 
 android {
@@ -7,6 +8,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:config:api"))
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
