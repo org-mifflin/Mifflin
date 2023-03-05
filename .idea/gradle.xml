@@ -31,6 +31,7 @@
             <option value="$PROJECT_DIR$/core/auth" />
             <option value="$PROJECT_DIR$/core/common" />
             <option value="$PROJECT_DIR$/core/config" />
+            <option value="$PROJECT_DIR$/core/config/api" />
             <option value="$PROJECT_DIR$/core/designsystem" />
             <option value="$PROJECT_DIR$/core/people" />
             <option value="$PROJECT_DIR$/core/people/api" />
@@ -42,9 +43,11 @@
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/auth/api" />
             <option value="$PROJECT_DIR$/features/conversation" />
+            <option value="$PROJECT_DIR$/features/login" />
             <option value="$PROJECT_DIR$/features/matchmaker" />
             <option value="$PROJECT_DIR$/features/onboarding" />
             <option value="$PROJECT_DIR$/features/profile" />
+            <option value="$PROJECT_DIR$/features/signup" />
           </set>
         </option>
       </GradleProjectSettings>
