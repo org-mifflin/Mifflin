@@ -7,9 +7,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.hilt.migration.DisableInstallInCheck
 
-@Module(includes = [PeopleAppModule.Bindings::class])
+@Module(includes = [PersonAppModule.Bindings::class])
 @InstallIn(SingletonComponent::class)
-object PeopleAppModule {
+object PersonAppModule {
 
     @Module
     @DisableInstallInCheck
