@@ -27,7 +27,7 @@ fun MifflinApp() {
                 composable(Screen.Matchmaker.route) {
                     val viewModel: MatchMakerViewModel = hiltViewModel()
                     val shouldRetry = it.savedStateHandle.get<Boolean>(ShouldRetryKey) ?: false
-                    LaunchedEffect(key1 = shouldRetry) { if (shouldRetry) viewModel.loadPeople() }
+                    LaunchedEffect(key1 = shouldRetry) { if (shouldRetry) viewModel.loadUsers() }
                     MatchMakerScreen(
                         viewModel,
                         onError = { throwable ->

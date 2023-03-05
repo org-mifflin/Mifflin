@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.javax.inject)
+    implementation(libs.timber)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.compose.ui.test)
@@ -63,10 +65,10 @@ dependencies {
     implementation(project(":core:config"))
     implementation(project(":core:config:api"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:people"))
-    implementation(project(":core:people:api"))
-    implementation(project(":core:people:local"))
-    implementation(project(":core:people:remote"))
+    implementation(project(":core:users"))
+    implementation(project(":core:users:api"))
+    implementation(project(":core:users:local"))
+    implementation(project(":core:users:remote"))
     implementation(project(":core:session"))
     implementation(project(":core:ui"))
 

@@ -1,7 +1,7 @@
 package com.dangerfield.features.matchmaker
 
+import api.ProfileSection
 import com.dangerfield.core.config.api.AppConfig
-import com.dangerfield.core.people.api.ProfileSection
 import javax.inject.Inject
 
 private const val ProfileOrderKey = "profile"

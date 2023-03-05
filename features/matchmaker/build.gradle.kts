@@ -11,7 +11,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:analytics"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:people:api"))
+    implementation(project(":core:users:api"))
     implementation(project(":core:common"))
     implementation(project(":core:config:api"))
     implementation(libs.androidx.compose.runtime)
@@ -22,6 +22,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.coil)
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     testImplementation(project(":core:test"))

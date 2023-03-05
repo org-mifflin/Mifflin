@@ -1,19 +1,19 @@
 package com.dangerfield.features.matchmaker
 
+import api.ProfileSection.About
+import api.ProfileSection.Gender
+import api.ProfileSection.Hobbies
+import api.ProfileSection.Name
+import api.ProfileSection.Photo
+import api.ProfileSection.School
+import api.User
+import api.UserRepository
 import app.cash.turbine.test
-import com.dangerfield.core.people.api.PeopleRepository
-import com.dangerfield.core.people.api.Person
-import com.dangerfield.core.people.api.ProfileSection.About
-import com.dangerfield.core.people.api.ProfileSection.Gender
-import com.dangerfield.core.people.api.ProfileSection.Hobbies
-import com.dangerfield.core.people.api.ProfileSection.Name
-import com.dangerfield.core.people.api.ProfileSection.Photo
-import com.dangerfield.core.people.api.ProfileSection.School
 import com.dangerfield.core.test.CoroutinesTestRule
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Empty
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Failed
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Idle
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Showing
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Empty
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Failed
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Idle
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Loaded
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every
@@ -30,8 +30,8 @@ class MatchMakerViewModelTest {
     @get:Rule
     val coroutineTestRule = CoroutinesTestRule()
 
-    private val peopleRepository: PeopleRepository = mockk {
-        coEvery { setPersonSeen(any()) } returns Unit
+    private val userRepository: UserRepository = mockk {
+        coEvery { setUserSeen(any()) } returns Unit
     }
 
     private val profileConfig: ProfileConfig = mockk {
@@ -44,98 +44,98 @@ class MatchMakerViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = MatchMakerViewModel(peopleRepository, analytics, profileConfig)
+        viewModel = MatchMakerViewModel(userRepository, analytics, profileConfig)
     }
 
     @Test
-    fun `GIVEN load succeeds, WHEN loading people, THEN response is reflected in vm`() = coroutineTestRule.test {
-        val person = Person(about = "", gender = "", id = 0, name = "", photo = "", hobbies = listOf(), school = null)
-        coEvery { peopleRepository.getNextPeople() } returns listOf(person)
+    fun `GIVEN load succeeds, WHEN loading users, THEN response is reflected in vm`() = coroutineTestRule.test {
+        val user = User(about = "", gender = "", id = 0, name = "", photo = "", hobbies = listOf(), school = null)
+        coEvery { userRepository.getNextUsers() } returns listOf(user)
 
         viewModel.stateStream.test {
             assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
-            viewModel.loadPeople()
+            viewModel.loadUsers()
             val state = awaitItem()
-            val peopleStatus = state.peopleStatus
-            assertThat(peopleStatus is Showing && peopleStatus.potentialMatch == person).isTrue()
-            verify { analytics.trackProfileImpression(person.id) }
+            val userResult = state.userResult
+            assertThat(userResult is Loaded && userResult.user == user).isTrue()
+            verify { analytics.trackProfileImpression(user.id) }
             verify(exactly = 0) { analytics.trackNextClick() }
         }
     }
 
     @Test
-    fun `GIVEN failure, WHEN loading people, THEN response is reflected in vm`() = coroutineTestRule.test {
+    fun `GIVEN failure, WHEN loading users, THEN response is reflected in vm`() = coroutineTestRule.test {
         val error = Error()
-        coEvery { peopleRepository.getNextPeople() } throws error
+        coEvery { userRepository.getNextUsers() } throws error
 
         viewModel.stateStream.test {
             assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
-            viewModel.loadPeople()
+            viewModel.loadUsers()
             val state = awaitItem()
-            val peopleStatus = state.peopleStatus
-            assertThat(peopleStatus is Failed && peopleStatus.throwable == error).isTrue()
+            val userResult = state.userResult
+            assertThat(userResult is Failed && userResult.throwable == error).isTrue()
             verify(exactly = 0) { analytics.trackProfileImpression(any()) }
             verify(exactly = 0) { analytics.trackNextClick() }
         }
     }
 
     @Test
-    fun `GIVEN loadNextPerson, WHEN there are people to show, THEN the next person should show`() =
+    fun `GIVEN loadNextPerson, WHEN there are users to show, THEN the next person should show`() =
         coroutineTestRule.test {
 
-            coEvery { peopleRepository.getNextPeople() } returns listOf(fakePerson(1), fakePerson(2))
+            coEvery { userRepository.getNextUsers() } returns listOf(fakePerson(1), fakePerson(2))
 
             viewModel.stateStream.test {
                 assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
 
-                viewModel.loadPeople()
+                viewModel.loadUsers()
 
                 val state = awaitItem()
-                val peopleStatus = state.peopleStatus
-                assertThat(peopleStatus is Showing && peopleStatus.potentialMatch.id == 1).isTrue()
+                val userResult = state.userResult
+                assertThat(userResult is Loaded && userResult.user.id == 1).isTrue()
 
-                viewModel.loadNextPerson(1)
+                viewModel.loadNextUser(1)
                 verify(exactly = 1) { analytics.trackNextClick() }
 
                 val nextState = awaitItem()
-                val nextPeopleStatus = nextState.peopleStatus
-                assertThat(nextPeopleStatus is Showing && nextPeopleStatus.potentialMatch.id == 2).isTrue()
+                val nextPeopleStatus = nextState.userResult
+                assertThat(nextPeopleStatus is Loaded && nextPeopleStatus.user.id == 2).isTrue()
                 verify(exactly = 2) { analytics.trackProfileImpression(any()) }
             }
         }
 
     @Test
-    fun `GIVEN loadNextPerson, WHEN there are not people to show, THEN empty response is given`() =
+    fun `GIVEN loadNextPerson, WHEN there are not users to show, THEN empty response is given`() =
         coroutineTestRule.test {
-            coEvery { peopleRepository.getNextPeople() } returns listOf(fakePerson(1))
+            coEvery { userRepository.getNextUsers() } returns listOf(fakePerson(1))
 
             viewModel.stateStream.test {
 
                 assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
-                viewModel.loadPeople()
+                viewModel.loadUsers()
 
                 val state = awaitItem()
-                val peopleStatus = state.peopleStatus
-                assertThat(peopleStatus is Showing && peopleStatus.potentialMatch.id == 1).isTrue()
+                val userResult = state.userResult
+                assertThat(userResult is Loaded && userResult.user.id == 1).isTrue()
 
-                viewModel.loadNextPerson(1)
+                viewModel.loadNextUser(1)
                 verify(exactly = 1) { analytics.trackNextClick() }
 
                 val nextState = awaitItem()
-                assertThat(nextState.peopleStatus).isInstanceOf(Empty::class.java)
+                assertThat(nextState.userResult).isInstanceOf(Empty::class.java)
                 verify(exactly = 1) { analytics.trackProfileImpression(any()) }
             }
         }
 
     @Test
-    fun `GIVEN a profile order, WHEN loading people, THEN the profile order should e reflected in state`() =
+    fun `GIVEN a profile order, WHEN loading users, THEN the profile order should e reflected in state`() =
         coroutineTestRule.test {
             val order = listOf(Hobbies, School, Name, Photo)
             every { profileConfig.getProfileSectionOrder() } returns order
 
-            viewModel = MatchMakerViewModel(peopleRepository, analytics, profileConfig)
+            viewModel = MatchMakerViewModel(userRepository, analytics, profileConfig)
 
-            coEvery { peopleRepository.getNextPeople() } returns listOf(fakePerson(1))
+            coEvery { userRepository.getNextUsers() } returns listOf(fakePerson(1))
 
             viewModel.stateStream.test {
                 assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, order))
@@ -143,5 +143,5 @@ class MatchMakerViewModelTest {
         }
 
     private fun fakePerson(id: Int) =
-        Person(about = "", gender = "", id = id, name = "", photo = "", hobbies = listOf(), school = null)
+        User(about = "", gender = "", id = id, name = "", photo = "", hobbies = listOf(), school = null)
 }

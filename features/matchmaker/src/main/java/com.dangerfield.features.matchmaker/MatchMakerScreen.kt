@@ -24,19 +24,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import api.ProfileSection
+import api.User
 import coil.compose.AsyncImage
 import com.dangerfield.core.common.doNothing
 import com.dangerfield.core.designsystem.theme.MifflinTheme
-import com.dangerfield.core.people.api.Person
-import com.dangerfield.core.people.api.ProfileSection
 import com.dangerfield.core.ui.ComposableLifecycle
 import com.dangerfield.core.ui.debugPlaceholder
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Empty
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Failed
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Idle
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Loading
-import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Showing
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.State
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Empty
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Failed
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Idle
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Loaded
+import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Loading
 import com.dangerfield.mifflin.features.matchmaker.R
 import kotlinx.coroutines.launch
 
@@ -50,14 +50,14 @@ fun MatchMakerScreen(
 
     ComposableLifecycle { _, event ->
         if (event == Lifecycle.Event.ON_CREATE) {
-            viewModel.loadPeople()
+            viewModel.loadUsers()
         }
     }
 
     MatchMakerScreenContent(
         state = state,
-        onNext = viewModel::loadNextPerson,
-        onReload = viewModel::loadPeople,
+        onNext = viewModel::loadNextUser,
+        onReload = viewModel::loadUsers,
         onError = {
             viewModel.onErrorHandled()
             onError(it)
@@ -86,23 +86,23 @@ private fun MatchMakerScreenContent(
                 .background(Color.Red)
         ) {
 
-            val isFailed = state.peopleStatus is Failed
+            val isFailed = state.userResult is Failed
 
             LaunchedEffect(key1 = isFailed) {
                 if (isFailed) {
-                    (state.peopleStatus as? Failed)?.let { status ->
+                    (state.userResult as? Failed)?.let { status ->
                         onError(status.throwable)
                     }
                 }
             }
 
-            when (val status = state.peopleStatus) {
+            when (val status = state.userResult) {
                 Idle -> doNothing()
                 Empty -> NoMorePeople(onReload)
                 is Failed -> doNothing()
                 Loading -> Loading()
-                is Showing -> PersonProfile(
-                    status.potentialMatch,
+                is Loaded -> UserProfile(
+                    status.user,
                     state.profileOrder,
                     onNext = onNext,
                     onScroll = onScroll
@@ -113,8 +113,8 @@ private fun MatchMakerScreenContent(
 }
 
 @Composable
-private fun PersonProfile(
-    person: Person,
+private fun UserProfile(
+    user: User,
     profileSectionOrder: List<ProfileSection>,
     onNext: (prevId: Int) -> Unit,
     onScroll: (Int, Int) -> Unit
@@ -124,7 +124,7 @@ private fun PersonProfile(
 
     if (scrollState.isScrollInProgress) {
         val scrollPercent = (scrollState.value.toFloat() / scrollState.maxValue.toFloat()) * 100
-        onScroll(scrollPercent.toInt(), person.id)
+        onScroll(scrollPercent.toInt(), user.id)
     }
 
     Column(
@@ -135,28 +135,28 @@ private fun PersonProfile(
 
         profileSectionOrder.map { section ->
             when (section) {
-                ProfileSection.Name -> Text(person.name)
-                ProfileSection.Photo -> {
+                ProfileSection.Name -> user.name?.let { Text(it) }
+                ProfileSection.Photo -> user.photo?.let { url ->
                     AsyncImage(
                         modifier = Modifier
                             .fillMaxWidth()
                             .background(Color.Green),
-                        model = person.photo,
+                        model = url,
                         contentScale = ContentScale.FillWidth,
                         placeholder = debugPlaceholder(debugPreview = R.drawable.low_res_image_placeholder),
-                        contentDescription = "Picture of $${person.name}"
+                        contentDescription = "Picture of $${user.name}"
                     )
                 }
-                ProfileSection.Gender -> Text(person.gender)
-                ProfileSection.About -> Text(person.about)
-                ProfileSection.School -> person.school?.let { Text(it) }
-                ProfileSection.Hobbies -> person.hobbies?.let { Text(it.joinToString { "," }) }
+                ProfileSection.Gender -> user.gender?.let { Text(it) }
+                ProfileSection.About -> user.about?.let { Text(it) }
+                ProfileSection.School -> user.school?.let { Text(it) }
+                ProfileSection.Hobbies -> user.hobbies?.let { Text(it.joinToString { "," }) }
             }
         }
 
         Button(
             onClick = {
-                onNext(person.id)
+                onNext(user.id)
                 scope.launch { scrollState.scrollTo(0) }
             }
         ) {
@@ -170,7 +170,7 @@ private fun NoMorePeople(
     onReload: () -> Unit
 ) {
     Column {
-        Text("No more people in your area")
+        Text("No more users in your area")
         Button(onClick = onReload) {
             Text(text = "Reload")
         }
@@ -188,8 +188,8 @@ private fun MatchMakerScreenContentPreview() {
     MifflinTheme {
         MatchMakerScreenContent(
             state = State(
-                Showing(
-                    Person(
+                Loaded(
+                    User(
                         about = "lorerdfndsj sdlfkjw thasd asdlfkje sdflkj",
                         gender = "Male",
                         id = 0,

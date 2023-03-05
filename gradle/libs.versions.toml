@@ -76,6 +76,8 @@ androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navig
 
 javax-inject = { module = "javax.inject:javax.inject", version = "1" }
 
+timber = "com.jakewharton.timber:timber:5.0.1"
+
 #Testing
 junit = "junit:junit:4.13.2"
 google-truth = "com.google.truth:truth:1.1.3"

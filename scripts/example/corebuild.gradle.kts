@@ -7,6 +7,7 @@ android {
 }
 
 dependencies {
+    implementation(libs.timber)
     testImplementation(libs.junit)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)

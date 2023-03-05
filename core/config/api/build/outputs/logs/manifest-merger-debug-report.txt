@@ -1,25 +1,25 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml:2:13-83
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml:2:13-83
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml:2:13-83
+ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml:2:13-83
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml:2:13-83
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml:2:13-83
 	package
-		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml:2:13-83
-		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml:2:13-83
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
 	xmlns:android
-		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml:2:23-81
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml:2:23-81
 uses-sdk
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml reason: use-sdk injection requested
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml reason: use-sdk injection requested
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
 	android:targetSdkVersion
-		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
 	android:minSdkVersion
-		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
-		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+		ADDED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
+		INJECTED from /Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml

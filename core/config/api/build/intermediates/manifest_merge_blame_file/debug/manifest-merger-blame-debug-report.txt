@@ -4,8 +4,8 @@
 4
 5    <uses-sdk
 6        android:minSdkVersion="21"
-6-->/Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
+6-->/Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
 7        android:targetSdkVersion="33" />
-7-->/Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest16674752089184830613.xml
+7-->/Users/eli.dangerfield/Workspace/Mifflin/core/config/api/build/intermediates/tmp/ProcessLibraryManifest/debug/tempAndroidManifest3735583273227423786.xml
 8
 9</manifest>
