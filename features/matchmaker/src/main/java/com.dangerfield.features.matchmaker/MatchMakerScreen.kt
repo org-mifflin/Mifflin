@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,9 +16,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
@@ -24,6 +29,7 @@ import com.dangerfield.core.common.doNothing
 import com.dangerfield.core.designsystem.theme.MifflinTheme
 import com.dangerfield.core.people.api.Person
 import com.dangerfield.core.people.api.ProfileSection
+import com.dangerfield.core.ui.ComposableLifecycle
 import com.dangerfield.core.ui.debugPlaceholder
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Empty
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Failed
@@ -32,6 +38,7 @@ import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Load
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.PeopleStatus.Showing
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.State
 import com.dangerfield.mifflin.features.matchmaker.R
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -40,6 +47,13 @@ fun MatchMakerScreen(
     onError: (Throwable) -> Unit
 ) {
     val state by viewModel.stateStream.collectAsStateWithLifecycle()
+
+    ComposableLifecycle { _, event ->
+        if (event == Lifecycle.Event.ON_CREATE) {
+            viewModel.loadPeople()
+        }
+    }
+
     MatchMakerScreenContent(
         state = state,
         onNext = viewModel::loadNextPerson,
@@ -47,6 +61,9 @@ fun MatchMakerScreen(
         onError = {
             viewModel.onErrorHandled()
             onError(it)
+        },
+        onScroll = { position, id ->
+            viewModel.trackProfileScroll(position, id)
         }
     )
 }
@@ -57,8 +74,10 @@ private fun MatchMakerScreenContent(
     state: State,
     onNext: (prevId: Int) -> Unit,
     onReload: () -> Unit,
-    onError: (Throwable) -> Unit
+    onError: (Throwable) -> Unit,
+    onScroll: (Int, Int) -> Unit
 ) {
+
     Scaffold {
         Box(
             Modifier
@@ -85,7 +104,8 @@ private fun MatchMakerScreenContent(
                 is Showing -> PersonProfile(
                     status.potentialMatch,
                     state.profileOrder,
-                    onNext = onNext
+                    onNext = onNext,
+                    onScroll = onScroll
                 )
             }
         }
@@ -96,17 +116,33 @@ private fun MatchMakerScreenContent(
 private fun PersonProfile(
     person: Person,
     profileSectionOrder: List<ProfileSection>,
-    onNext: (prevId: Int) -> Unit
+    onNext: (prevId: Int) -> Unit,
+    onScroll: (Int, Int) -> Unit
 ) {
-    Column(modifier = Modifier.fillMaxSize()) {
+    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
+
+    if (scrollState.isScrollInProgress) {
+        val scrollPercent = (scrollState.value.toFloat() / scrollState.maxValue.toFloat()) * 100
+        onScroll(scrollPercent.toInt(), person.id)
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState)
+    ) {
 
         profileSectionOrder.map { section ->
             when (section) {
                 ProfileSection.Name -> Text(person.name)
                 ProfileSection.Photo -> {
                     AsyncImage(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Green),
                         model = person.photo,
+                        contentScale = ContentScale.FillWidth,
                         placeholder = debugPlaceholder(debugPreview = R.drawable.low_res_image_placeholder),
                         contentDescription = "Picture of $${person.name}"
                     )
@@ -118,7 +154,12 @@ private fun PersonProfile(
             }
         }
 
-        Button(onClick = { onNext(person.id) }) {
+        Button(
+            onClick = {
+                onNext(person.id)
+                scope.launch { scrollState.scrollTo(0) }
+            }
+        ) {
             Text(text = "Next")
         }
     }
@@ -169,7 +210,8 @@ private fun MatchMakerScreenContentPreview() {
             ),
             onNext = {},
             onReload = {},
-            onError = {}
+            onError = {},
+            onScroll = { _, _ -> }
         )
     }
 }

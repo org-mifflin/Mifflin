@@ -9,6 +9,7 @@ android {
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:analytics"))
     implementation(project(":core:designsystem"))
     implementation(project(":core:people:api"))
     implementation(project(":core:common"))
@@ -23,6 +24,10 @@ dependencies {
     implementation(libs.coil)
 
     testImplementation(libs.junit)
+    testImplementation(project(":core:test"))
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.google.truth)

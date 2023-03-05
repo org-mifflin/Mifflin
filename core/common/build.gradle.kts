@@ -1,5 +1,6 @@
 plugins {
     id("mifflin.android.library")
+    id("mifflin.android.hilt")
 }
 
 android {

@@ -38,6 +38,7 @@
             <option value="$PROJECT_DIR$/core/people/local" />
             <option value="$PROJECT_DIR$/core/people/remote" />
             <option value="$PROJECT_DIR$/core/session" />
+            <option value="$PROJECT_DIR$/core/test" />
             <option value="$PROJECT_DIR$/core/ui" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />

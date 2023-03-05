@@ -11,7 +11,7 @@ class OfflineFirstPeopleRepository @Inject constructor() : PeopleRepository {
         delay(3000)
         return listOf(
             Person(
-                about = "lorerdfndsj sdlfkjw thasd asdlfkje sdflkj",
+                about = "lorerdfndsj sdlfkjw thasd asdlfkje sdflkj".repeat(500),
                 gender = "Male",
                 id = 0,
                 name = "Elijah",
@@ -20,7 +20,7 @@ class OfflineFirstPeopleRepository @Inject constructor() : PeopleRepository {
                 school = "Bikini Bottom Boating School"
             ),
             Person(
-                about = "lorerdfndsj sdlfkjw thasd asdlfkje sdflkj",
+                about = "lorerdfndsj sdlfkjw thasd asdlfkje sdflkj".repeat(500),
                 gender = "Male",
                 id = 1,
                 name = "Josiah",

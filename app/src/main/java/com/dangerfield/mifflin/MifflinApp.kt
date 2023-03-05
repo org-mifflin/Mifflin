@@ -55,12 +55,9 @@ fun MifflinApp() {
                         }
                     )
                 ) {
-                    val internalCode = it.arguments?.getInt(InternalCodeNavArg) ?: InternalCodeDefaultValue
-                    val isRetryable = it.arguments?.getBoolean(IsRetryableNavArg) ?: IsRetryableDefaultValue
-
                     GlobalErrorScreen(
-                        internalCode = internalCode,
-                        isRetryable = isRetryable,
+                        internalCode = it.arguments?.getInt(InternalCodeNavArg) ?: InternalCodeDefaultValue,
+                        isRetryable = it.arguments?.getBoolean(IsRetryableNavArg) ?: IsRetryableDefaultValue,
                         onDismiss = { shouldRetry ->
                             navController.previousBackStackEntry?.savedStateHandle?.set(ShouldRetryKey, shouldRetry)
                             navController.popBackStack()
