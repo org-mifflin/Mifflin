@@ -35,7 +35,7 @@ class MatchMakerViewModelTest {
     }
 
     private val profileConfig: ProfileConfig = mockk {
-        every { getProfileSectionOrder() } returns defaultProfileSectionOrder
+        every { profileSectionOrder } returns defaultProfileSectionOrder
     }
 
     private val analytics: MatchMakerAnalytics = mockk(relaxed = true)
@@ -131,7 +131,7 @@ class MatchMakerViewModelTest {
     fun `GIVEN a profile order, WHEN loading users, THEN the profile order should e reflected in state`() =
         coroutineTestRule.test {
             val order = listOf(Hobbies, School, Name, Photo)
-            every { profileConfig.getProfileSectionOrder() } returns order
+            every { profileConfig.profileSectionOrder } returns order
 
             viewModel = MatchMakerViewModel(userRepository, analytics, profileConfig)
 
