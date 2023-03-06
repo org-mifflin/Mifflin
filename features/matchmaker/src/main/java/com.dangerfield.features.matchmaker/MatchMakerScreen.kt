@@ -1,44 +1,42 @@
 package com.dangerfield.features.matchmaker
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import api.ProfileSection
 import api.User
-import coil.compose.AsyncImage
 import com.dangerfield.core.common.doNothing
+import com.dangerfield.core.designsystem.components.BasicButton
 import com.dangerfield.core.designsystem.theme.MifflinTheme
 import com.dangerfield.core.ui.ComposableLifecycle
-import com.dangerfield.core.ui.debugPlaceholder
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.State
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Empty
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Failed
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Idle
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Loaded
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Loading
-import com.dangerfield.mifflin.features.matchmaker.R
-import kotlinx.coroutines.launch
+import com.dangerfield.features.matchmaker.components.UserProfile
 
 @OptIn(ExperimentalLifecycleComposeApi::class)
 @Composable
@@ -62,9 +60,7 @@ fun MatchMakerScreen(
             viewModel.onErrorHandled()
             onError(it)
         },
-        onScroll = { position, id ->
-            viewModel.trackProfileScroll(position, id)
-        }
+        onScroll = { position, id -> viewModel.trackProfileScroll(position, id) }
     )
 }
 
@@ -83,7 +79,8 @@ private fun MatchMakerScreenContent(
             Modifier
                 .padding(it)
                 .fillMaxSize()
-                .background(Color.Red)
+                .background(MaterialTheme.colorScheme.background),
+            contentAlignment = Alignment.Center
         ) {
 
             val isFailed = state.userResult is Failed
@@ -113,67 +110,42 @@ private fun MatchMakerScreenContent(
 }
 
 @Composable
-private fun UserProfile(
-    user: User,
-    profileSectionOrder: List<ProfileSection>,
-    onNext: (prevId: Int) -> Unit,
-    onScroll: (Int, Int) -> Unit
-) {
-    val scrollState = rememberScrollState()
-    val scope = rememberCoroutineScope()
-
-    if (scrollState.isScrollInProgress) {
-        val scrollPercent = (scrollState.value.toFloat() / scrollState.maxValue.toFloat()) * 100
-        onScroll(scrollPercent.toInt(), user.id)
-    }
-
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
-
-        profileSectionOrder.map { section ->
-            when (section) {
-                ProfileSection.Name -> user.name?.let { Text(it) }
-                ProfileSection.Photo -> user.photo?.let { url ->
-                    AsyncImage(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(Color.Green),
-                        model = url,
-                        contentScale = ContentScale.FillWidth,
-                        placeholder = debugPlaceholder(debugPreview = R.drawable.low_res_image_placeholder),
-                        contentDescription = "Picture of $${user.name}"
-                    )
-                }
-                ProfileSection.Gender -> user.gender?.let { Text(it) }
-                ProfileSection.About -> user.about?.let { Text(it) }
-                ProfileSection.School -> user.school?.let { Text(it) }
-                ProfileSection.Hobbies -> user.hobbies?.let { Text(it.joinToString { "," }) }
-            }
-        }
-
-        Button(
-            onClick = {
-                onNext(user.id)
-                scope.launch { scrollState.scrollTo(0) }
-            }
-        ) {
-            Text(text = "Next")
-        }
-    }
-}
-
-@Composable
 private fun NoMorePeople(
     onReload: () -> Unit
 ) {
-    Column {
-        Text("No more users in your area")
-        Button(onClick = onReload) {
-            Text(text = "Reload")
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
+            .padding(20.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceAround
+    ) {
+
+        Column() {
+            Text(
+                text = "Uh oh....",
+                style = MaterialTheme.typography.displayMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            Text(
+                text = """
+                    "It looks like the only person left is Bob Vance (Vance Refrigeration). 
+                    
+                    Maybe consider looking outside of Scranton."
+                """.trimIndent(),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.onBackground
+            )
         }
+
+        BasicButton(
+            onClick = onReload,
+            text = "Reload"
+        )
     }
 }
 

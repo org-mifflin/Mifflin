@@ -60,6 +60,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
 
+    implementation(libs.coil)
+
     implementation(project(":core:analytics"))
     implementation(project(":core:auth"))
     implementation(project(":core:common"))

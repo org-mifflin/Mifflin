@@ -1,18 +1,24 @@
 package com.dangerfield.mifflin.error
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.dangerfield.core.designsystem.components.BasicButton
 import com.dangerfield.core.designsystem.theme.MifflinTheme
 import com.dangerfield.mifflin.R
 
@@ -44,19 +50,32 @@ private fun GlobalErrorScreenContent(
             Modifier
                 .padding(it)
                 .fillMaxSize()
-                .background(Color.Red)
+                .background(MaterialTheme.colorScheme.background)
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceAround
         ) {
 
-            Text(text = message)
-            if (isRetryable) {
-                Button(onClick = { onDismiss(true) }) {
-                    Text(text = "RETRY")
-                }
-            } else {
-                Button(onClick = { onDismiss(false) }) {
-                    Text(text = "OKAY")
-                }
+            Column() {
+                Text(
+                    text = "Uh oh....",
+                    style = MaterialTheme.typography.displayMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+                Spacer(modifier = Modifier.height(24.dp))
+                Text(
+                    text = message,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             }
+
+            BasicButton(
+                onClick = { onDismiss(isRetryable) },
+                text = if (isRetryable) "Retry" else "Okay"
+            )
         }
     }
 }

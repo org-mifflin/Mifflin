@@ -22,9 +22,9 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.minutes
+import kotlin.time.Duration.Companion.days
 
-private val ConfigRefreshRate = 15.minutes
+private val ConfigRefreshRate = 15.days // TODO change this back
 private const val ConfigKey = "config"
 
 class AppConfigRepository @Inject constructor(
@@ -50,7 +50,8 @@ class AppConfigRepository @Inject constructor(
         }
         .stateIn(
             appLifecycleScope,
-            SharingStarted.Lazily,
+            // triggers upstream immediately and never stops regardless of subscribers
+            SharingStarted.Eagerly,
             initialValue = defaultAppConfig
         )
 

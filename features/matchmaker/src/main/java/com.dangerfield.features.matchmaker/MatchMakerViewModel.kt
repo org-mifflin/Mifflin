@@ -11,18 +11,16 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
-import java.util.LinkedList
-import java.util.Queue
 import javax.inject.Inject
 
 @HiltViewModel
 class MatchMakerViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: MatchMakerAnalytics,
-    private val profileConfig: ProfileConfig
+    profileConfig: ProfileConfig,
 ) : UdfViewModel<MatchMakerViewModel.State, MatchMakerViewModel.Action>() {
 
-    private val matchableUsers: Queue<User> = LinkedList()
+    private val matchableUsers: MutableSet<User> = LinkedHashSet()
 
     override val initialState = State(UserResult.Idle, profileConfig.profileSectionOrder)
 
@@ -90,7 +88,9 @@ class MatchMakerViewModel @Inject constructor(
     }
 
     private suspend fun FlowCollector<State>.pollUserQueue() {
-        val userResult = matchableUsers.poll()?.let { UserResult.Loaded(it) } ?: UserResult.Empty
+        val nextUser = matchableUsers.elementAtOrNull(0)
+        matchableUsers.remove(nextUser)
+        val userResult = nextUser?.let { UserResult.Loaded(it) } ?: UserResult.Empty
         if (userResult is UserResult.Loaded) {
             analytics.trackProfileImpression(userResult.user.id)
         }

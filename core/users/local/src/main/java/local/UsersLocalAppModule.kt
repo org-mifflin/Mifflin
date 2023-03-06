@@ -15,7 +15,7 @@ object UsersLocalAppModule {
 
     @Singleton
     @Provides
-    fun providesNotableDatabase(@ApplicationContext context: Context): MifflinDatabase {
+    fun providesUserDatabase(@ApplicationContext context: Context): MifflinDatabase {
         return Room.databaseBuilder(context, MifflinDatabase::class.java, "mifflin.db")
             .fallbackToDestructiveMigration()
             .build()
@@ -23,7 +23,7 @@ object UsersLocalAppModule {
 
     @Singleton
     @Provides
-    fun providesArticleDao(db: MifflinDatabase): UserDao {
+    fun providesUserDao(db: MifflinDatabase): UserDao {
         return db.userDao()
     }
 }
