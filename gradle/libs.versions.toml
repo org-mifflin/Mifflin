@@ -13,6 +13,7 @@ androidxNavigation = "2.5.3"
 androidxWindowManager = "1.0.0"
 androidxLifecycle = "2.6.0-alpha03"
 androidxHiltNavigationCompose = "1.0.0"
+androidXLifecycleVersion="2.5.1"
 room = "2.5.0"
 ksp = "1.7.20-1.0.8"
 
@@ -33,16 +34,20 @@ androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-t
 androidx-lifecycle-runtimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidxLifecycle" }
 androidx-lifecycle-ext = "androidx.lifecycle:lifecycle-extensions:2.2.0"
 androidx-lifecycle-vm = "androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.0-alpha01"
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidXLifecycleVersion" }
+androidx-lifecycle-runtime = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidXLifecycleVersion" }
+androidx-datastore = "androidx.datastore:datastore-preferences:1.0.0"
+androidx-datastore-core = "androidx.datastore:datastore-core:1.1.0-alpha01"
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+
 androidx-compose-material-iconsExtended = { group = "androidx.compose.material", name = "material-icons-extended" }
 androidx-compose-material3-windowSizeClass = {group = "androidx.compose.material3", name = "material3-window-size-class" }
 androidx-compose-runtime-tracing = { group = "androidx.compose.runtime", name = "runtime-tracing", version.ref = "androidxComposeRuntimeTracing" }
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
-androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling"}
 androidx-compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"}
-androidx-lifecycle-runtime = "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation" }
 androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxCoreSplashscreen" }
 

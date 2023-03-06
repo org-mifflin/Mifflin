@@ -1,6 +1,16 @@
 package com.dangerfield.core.common
 
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.util.concurrent.CancellationException
 
 @Suppress("TooGenericExceptionCaught")
@@ -31,3 +41,34 @@ fun <T> Result<T>.onTimeout(block: () -> Unit) {
         }
     }
 }
+
+suspend fun <T> runCancellableCatching(
+    exponentialBackOff: ExponentialBackoff?,
+    block: suspend () -> T
+): Result<T> {
+    exponentialBackOff?.let {
+        var currentDelay = exponentialBackOff.initialDelay
+        repeat(exponentialBackOff.times - 1) {
+            val result = runCancellableCatching { block() }
+                .onFailure { Timber.e(it) }
+                .getOrNull()
+
+            result?.let { return Result.success(it) }
+            delay(currentDelay)
+            currentDelay = (currentDelay * exponentialBackOff.factor).toLong().coerceAtMost(exponentialBackOff.maxDelay)
+        }
+    }
+
+    return runCancellableCatching { block() }
+}
+
+inline fun <T> LifecycleOwner.collectWhileStarted(
+    flow: Flow<T>,
+    crossinline onError: (Throwable) -> Unit = { Timber.e(it) },
+    crossinline onSuccess: suspend (T) -> Unit
+): Job =
+    lifecycleScope.launch {
+        flow.flowWithLifecycle(lifecycle)
+            .catch { onError(it) }
+            .collectLatest { onSuccess(it) }
+    }

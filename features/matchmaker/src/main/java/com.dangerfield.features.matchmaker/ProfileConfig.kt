@@ -19,12 +19,13 @@ class ProfileConfig @Inject constructor(
         ProfileSection.Hobbies,
     )
 
-    fun getProfileSectionOrder(): List<ProfileSection> {
-        val values = appConfig.value<List<String>>(ProfileOrderKey)
-        val sections = values?.mapNotNull {
-            ProfileSection.values().find { section -> section.sectionName == it }
-        }?.takeIf { it.size == ProfileSection.values().size }
+    val profileSectionOrder: List<ProfileSection>
+        get() {
+            val values = appConfig.value<List<String>>(ProfileOrderKey)
+            val sections = values?.mapNotNull {
+                ProfileSection.values().find { section -> section.sectionName == it }
+            }?.takeIf { it.size == ProfileSection.values().size }
 
-        return sections ?: defaultProfileSectionOrder
-    }
+            return sections ?: defaultProfileSectionOrder
+        }
 }

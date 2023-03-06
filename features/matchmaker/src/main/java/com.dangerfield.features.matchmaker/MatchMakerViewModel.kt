@@ -19,12 +19,12 @@ import javax.inject.Inject
 class MatchMakerViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: MatchMakerAnalytics,
-    profileConfig: ProfileConfig
+    private val profileConfig: ProfileConfig
 ) : UdfViewModel<MatchMakerViewModel.State, MatchMakerViewModel.Action>() {
 
     private val matchableUsers: Queue<User> = LinkedList()
 
-    override val initialState = State(UserResult.Idle, profileConfig.getProfileSectionOrder())
+    override val initialState = State(UserResult.Idle, profileConfig.profileSectionOrder)
 
     override fun transformActionFlow(actionFlow: Flow<Action>): Flow<State> {
         return actionFlow.flatMapMerge {
