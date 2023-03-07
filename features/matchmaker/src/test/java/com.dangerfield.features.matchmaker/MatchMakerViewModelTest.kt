@@ -49,7 +49,15 @@ class MatchMakerViewModelTest {
 
     @Test
     fun `GIVEN load succeeds, WHEN loading users, THEN response is reflected in vm`() = coroutineTestRule.test {
-        val user = User(about = "", gender = "", id = 0, name = "", photo = "", hobbies = listOf(), school = null)
+        val user = User(
+            about = "I like blackjack and making chili",
+            gender = "Male",
+            id = 0,
+            name = "Kevin",
+            photo = "",
+            hobbies = listOf("skittles"),
+            school = null
+        )
         coEvery { userRepository.getNextUsers() } returns listOf(user)
 
         viewModel.stateStream.test {
@@ -143,5 +151,13 @@ class MatchMakerViewModelTest {
         }
 
     private fun fakePerson(id: Int) =
-        User(about = "", gender = "", id = id, name = "", photo = "", hobbies = listOf(), school = null)
+        User(
+            about = "I like long walks on the beach, music, water, squirrels.... and I might be a dog",
+            gender = "dog",
+            id = id,
+            name = "doggo",
+            photo = "",
+            hobbies = listOf("Going for walks", "eating"),
+            school = "Harvard"
+        )
 }

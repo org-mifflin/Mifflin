@@ -19,6 +19,10 @@ import api.ProfileSection
 import api.User
 import com.dangerfield.core.designsystem.components.BasicButton
 import com.dangerfield.core.designsystem.theme.MifflinTheme
+import com.dangerfield.features.matchmaker.ui.components.NameSection
+import com.dangerfield.features.matchmaker.ui.components.PhotoSection
+import com.dangerfield.features.matchmaker.ui.components.ProfileIconCard
+import com.dangerfield.features.matchmaker.ui.components.ProfilePromptCard
 import com.dangerfield.mifflin.features.matchmaker.R
 import kotlinx.coroutines.launch
 
@@ -64,7 +68,7 @@ private fun Sections(profileSectionOrder: List<ProfileSection>, user: User) {
                 NameSection(it)
             }
             ProfileSection.Photo -> user.photo?.let {
-                PhotoSection(url = user.photo, name = user.name)
+                PhotoSection(url = it, name = user.name)
             }
             ProfileSection.About -> user.about?.let {
                 ProfilePromptCard("A Bit About Me", it)

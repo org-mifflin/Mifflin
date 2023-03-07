@@ -34,8 +34,8 @@ fun <T> Result<T>.onCanceled(block: () -> Unit) {
     }
 }
 
-fun <T> Result<T>.onTimeout(block: () -> Unit) {
-    this.onFailure {
+fun <T> Result<T>.onTimeout(block: () -> Unit): Result<T> {
+    return this.onFailure {
         if (it is TimeoutCancellationException) {
             block()
         }
@@ -43,19 +43,19 @@ fun <T> Result<T>.onTimeout(block: () -> Unit) {
 }
 
 suspend fun <T> runCancellableCatching(
-    exponentialBackOff: ExponentialBackoff?,
+    backOff: Backoff?,
     block: suspend () -> T
 ): Result<T> {
-    exponentialBackOff?.let {
-        var currentDelay = exponentialBackOff.initialDelay
-        repeat(exponentialBackOff.times - 1) {
+    backOff?.let {
+        var currentDelay = backOff.initialDelay
+        repeat(backOff.times - 1) {
             val result = runCancellableCatching { block() }
                 .onFailure { Timber.e(it) }
                 .getOrNull()
 
             result?.let { return Result.success(it) }
             delay(currentDelay)
-            currentDelay = (currentDelay * exponentialBackOff.factor).toLong().coerceAtMost(exponentialBackOff.maxDelay)
+            currentDelay = (currentDelay * backOff.factor).toLong().coerceAtMost(backOff.maxDelay)
         }
     }
 

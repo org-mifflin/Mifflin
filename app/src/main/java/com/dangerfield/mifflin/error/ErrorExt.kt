@@ -21,5 +21,5 @@ private fun HttpException.isRetryableHttpException(): Boolean {
 val Throwable.internalCode: Int
     get() = when (this) {
         is HttpException -> 83
-        else -> 123
+        else -> 302
     }

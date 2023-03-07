@@ -1,4 +1,4 @@
-package com.dangerfield.features.matchmaker.components
+package com.dangerfield.features.matchmaker.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

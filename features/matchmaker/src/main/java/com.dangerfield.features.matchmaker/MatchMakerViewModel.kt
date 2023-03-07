@@ -24,7 +24,10 @@ class MatchMakerViewModel @Inject constructor(
 
     override val initialState = State(UserResult.Idle, profileConfig.profileSectionOrder)
 
+    override val initialAction: Action = Action.LoadUsers
+
     override fun transformActionFlow(actionFlow: Flow<Action>): Flow<State> {
+
         return actionFlow.flatMapMerge {
             flow {
                 when (it) {
@@ -78,22 +81,30 @@ class MatchMakerViewModel @Inject constructor(
         emit(state.copy(userResult = UserResult.Loading))
         runCancellableCatching {
             val users = userRepository.getNextUsers()
-            matchableUsers.addAll(users)
+            check(users.isNotEmpty()) { }
+            users.let { matchableUsers.addAll(users) }
         }
             .onFailure {
                 Timber.e(it)
                 emit(state.copy(userResult = UserResult.Failed(it)))
             }
-            .onSuccess { pollUserQueue() }
+            .onSuccess {
+                pollUserQueue()
+            }
     }
 
     private suspend fun FlowCollector<State>.pollUserQueue() {
         val nextUser = matchableUsers.elementAtOrNull(0)
-        matchableUsers.remove(nextUser)
-        val userResult = nextUser?.let { UserResult.Loaded(it) } ?: UserResult.Empty
+
+        val userResult = nextUser?.let {
+            matchableUsers.remove(it)
+            UserResult.Loaded(it)
+        } ?: UserResult.Empty
+
         if (userResult is UserResult.Loaded) {
             analytics.trackProfileImpression(userResult.user.id)
         }
+
         emit(state.copy(userResult = userResult))
     }
 

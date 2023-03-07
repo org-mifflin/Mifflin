@@ -6,36 +6,34 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import com.dangerfield.core.config.api.AppConfig
 import com.google.gson.Gson
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dagger.hilt.migration.DisableInstallInCheck
 import kotlinx.coroutines.flow.Flow
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
-@Module
+const val FallbackConfigName = "fallbackConfig"
+
+@Module(includes = [AppConfigModule.Bindings::class])
 @InstallIn(SingletonComponent::class)
 object AppConfigModule {
 
     @Provides
-    fun providesDefaultAppConfig(@ApplicationContext context: Context): DefaultAppConfig {
-        val config = DefaultAppConfig()
-        config.load(context)
-        return config
-    }
-
-    @Provides
-    fun providesAppConfigStream(appConfigRepository: AppConfigRepository): Flow<AppConfig> {
+    fun providesAppConfigStream(appConfigRepository: OfflineFirstAppConfigRepository): Flow<AppConfig> {
         return appConfigRepository.configStream()
     }
 
     @Provides
-    fun providesAppConfig(appConfigRepository: AppConfigRepository): AppConfig {
+    fun providesAppConfig(appConfigRepository: OfflineFirstAppConfigRepository): AppConfig {
         return appConfigRepository.config()
     }
 
@@ -68,4 +66,19 @@ object AppConfigModule {
     }
 
     private val Context.configDatastore: DataStore<Preferences> by preferencesDataStore(name = "mifflin_config")
+
+    @Module
+    @DisableInstallInCheck
+    interface Bindings {
+
+        @Binds
+        @Named(FallbackConfigName)
+        fun bindsFallbackConfig(impl: DefaultConfig): AppConfig
+
+        @Binds
+        fun bindsConfigLocalDataSource(impl: DataStoreConfigDataSource): ConfigLocalDataSource
+
+        @Binds
+        fun bindsAppConfigRepo(impl: OfflineFirstAppConfigRepository): AppConfigRepository
+    }
 }

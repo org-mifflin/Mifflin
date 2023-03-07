@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.process)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
@@ -81,4 +82,6 @@ dependencies {
     implementation(project(":features:onboarding"))
     implementation(project(":features:profile"))
     implementation(project(":features:signup"))
+
+    testImplementation(project(":core:test"))
 }

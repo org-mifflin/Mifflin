@@ -21,6 +21,10 @@ dependencies {
     implementation(project(":core:common"))
 
     testImplementation(libs.junit)
+    testImplementation(project(":core:test"))
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.google.truth)
