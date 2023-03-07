@@ -54,7 +54,7 @@ fun MatchMakerScreen(
 @Composable
 internal fun MatchMakerScreenContent(
     state: State,
-    onNext: (prevId: Int) -> Unit,
+    onNext: (previousUser: User) -> Unit,
     onReload: () -> Unit,
     onError: (Throwable) -> Unit,
     onScroll: (Int, Int) -> Unit

@@ -40,25 +40,41 @@ class MatchMakerViewModelTest {
 
     private val analytics: MatchMakerAnalytics = mockk(relaxed = true)
 
+    private val profilePictureImageLoader: ProfilePictureImageLoader = mockk(relaxed = true)
+
     lateinit var viewModel: MatchMakerViewModel
 
     @Before
     fun setup() {
-        viewModel = MatchMakerViewModel(userRepository, analytics, profileConfig)
+        viewModel = MatchMakerViewModel(userRepository, analytics, profilePictureImageLoader, profileConfig)
     }
 
     @Test
     fun `GIVEN load succeeds, WHEN loading users, THEN response is reflected in vm`() = coroutineTestRule.test {
+        val url1 = "url1"
+        val url2 = "url2"
+
         val user = User(
             about = "I like blackjack and making chili",
             gender = "Male",
             id = 0,
             name = "Kevin",
-            photo = "",
+            photo = url1,
             hobbies = listOf("skittles"),
             school = null
         )
-        coEvery { userRepository.getNextUsers() } returns listOf(user)
+
+        val user2 = User(
+            about = "I like blackjack and making chili",
+            gender = "Male",
+            id = 0,
+            name = "Kevin",
+            photo = url2,
+            hobbies = listOf("skittles"),
+            school = null
+        )
+
+        coEvery { userRepository.getNextUsers() } returns listOf(user, user2)
 
         viewModel.stateStream.test {
             assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
@@ -67,7 +83,59 @@ class MatchMakerViewModelTest {
             val userResult = state.userResult
             assertThat(userResult is Loaded && userResult.user == user).isTrue()
             verify { analytics.trackProfileImpression(user.id) }
+            verify { profilePictureImageLoader.prefetchImages(listOf(url1, url2)) }
             verify(exactly = 0) { analytics.trackNextClick() }
+        }
+    }
+
+    @Test
+    fun `GIVEN load succeeds, WHEN clicking next, THEN image cache is cleared`() = coroutineTestRule.test {
+        val url1 = "url1"
+        val url2 = "url2"
+
+        val user = User(
+            about = "I like blackjack and making chili",
+            gender = "Male",
+            id = 0,
+            name = "Kevin",
+            photo = url1,
+            hobbies = listOf("skittles"),
+            school = null
+        )
+
+        val user2 = User(
+            about = "I like blackjack and making chili",
+            gender = "Male",
+            id = 0,
+            name = "Kevin",
+            photo = url2,
+            hobbies = listOf("skittles"),
+            school = null
+        )
+
+        coEvery { userRepository.getNextUsers() } returns listOf(user, user2)
+
+        viewModel.stateStream.test {
+
+            assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
+
+            viewModel.loadUsers()
+
+            val state = awaitItem()
+            val userResult = state.userResult
+            assertThat(userResult is Loaded && userResult.user == user).isTrue()
+
+            verify { analytics.trackProfileImpression(user.id) }
+            verify { profilePictureImageLoader.prefetchImages(listOf(url1, url2)) }
+            verify(exactly = 0) { analytics.trackNextClick() }
+
+            viewModel.loadNextUser(user)
+
+            val state2 = awaitItem()
+            val userResult2 = state2.userResult
+            assertThat(userResult2 is Loaded && userResult2.user == user2).isTrue()
+
+            verify { profilePictureImageLoader.deleteImage(url1) }
         }
     }
 
@@ -83,6 +151,7 @@ class MatchMakerViewModelTest {
             val userResult = state.userResult
             assertThat(userResult is Failed && userResult.throwable == error).isTrue()
             verify(exactly = 0) { analytics.trackProfileImpression(any()) }
+            verify(exactly = 0) { profilePictureImageLoader.prefetchImages(any()) }
             verify(exactly = 0) { analytics.trackNextClick() }
         }
     }
@@ -91,7 +160,9 @@ class MatchMakerViewModelTest {
     fun `GIVEN loadNextPerson, WHEN there are users to show, THEN the next person should show`() =
         coroutineTestRule.test {
 
-            coEvery { userRepository.getNextUsers() } returns listOf(fakePerson(1), fakePerson(2))
+            val user1 = fakePerson(1)
+            val user2 = fakePerson(2)
+            coEvery { userRepository.getNextUsers() } returns listOf(user1, user2)
 
             viewModel.stateStream.test {
                 assertThat(awaitItem()).isEqualTo(MatchMakerViewModel.State(Idle, defaultProfileSectionOrder))
@@ -102,7 +173,7 @@ class MatchMakerViewModelTest {
                 val userResult = state.userResult
                 assertThat(userResult is Loaded && userResult.user.id == 1).isTrue()
 
-                viewModel.loadNextUser(1)
+                viewModel.loadNextUser(previousUser = user1)
                 verify(exactly = 1) { analytics.trackNextClick() }
 
                 val nextState = awaitItem()
@@ -115,7 +186,8 @@ class MatchMakerViewModelTest {
     @Test
     fun `GIVEN loadNextPerson, WHEN there are not users to show, THEN empty response is given`() =
         coroutineTestRule.test {
-            coEvery { userRepository.getNextUsers() } returns listOf(fakePerson(1))
+            val user1 = fakePerson(1)
+            coEvery { userRepository.getNextUsers() } returns listOf(user1)
 
             viewModel.stateStream.test {
 
@@ -126,7 +198,7 @@ class MatchMakerViewModelTest {
                 val userResult = state.userResult
                 assertThat(userResult is Loaded && userResult.user.id == 1).isTrue()
 
-                viewModel.loadNextUser(1)
+                viewModel.loadNextUser(user1)
                 verify(exactly = 1) { analytics.trackNextClick() }
 
                 val nextState = awaitItem()
@@ -141,7 +213,7 @@ class MatchMakerViewModelTest {
             val order = listOf(Hobbies, School, Name, Photo)
             every { profileConfig.profileSectionOrder } returns order
 
-            viewModel = MatchMakerViewModel(userRepository, analytics, profileConfig)
+            viewModel = MatchMakerViewModel(userRepository, analytics, profilePictureImageLoader, profileConfig)
 
             coEvery { userRepository.getNextUsers() } returns listOf(fakePerson(1))
 
@@ -156,7 +228,7 @@ class MatchMakerViewModelTest {
             gender = "dog",
             id = id,
             name = "doggo",
-            photo = "",
+            photo = "url$id",
             hobbies = listOf("Going for walks", "eating"),
             school = "Harvard"
         )

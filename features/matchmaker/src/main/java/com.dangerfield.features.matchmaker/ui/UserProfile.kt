@@ -34,7 +34,7 @@ import kotlinx.coroutines.launch
 fun UserProfile(
     user: User,
     profileSectionOrder: List<ProfileSection>,
-    onNext: (prevId: Int) -> Unit,
+    onNext: (previousUser: User) -> Unit,
     onScroll: (Int, Int) -> Unit
 ) {
     val scrollState = rememberScrollState()
@@ -55,7 +55,7 @@ fun UserProfile(
 
         Sections(profileSectionOrder, user)
         BasicButton(onClick = {
-            onNext(user.id)
+            onNext(user)
             scope.launch { scrollState.scrollTo(0) }
         }, text = stringResource(R.string.next))
 

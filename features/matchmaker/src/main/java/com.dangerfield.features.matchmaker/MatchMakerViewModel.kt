@@ -17,6 +17,7 @@ import javax.inject.Inject
 class MatchMakerViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val analytics: MatchMakerAnalytics,
+    private val profilePictureImageLoader: ProfilePictureImageLoader,
     profileConfig: ProfileConfig,
 ) : UdfViewModel<MatchMakerViewModel.State, MatchMakerViewModel.Action>() {
 
@@ -32,7 +33,7 @@ class MatchMakerViewModel @Inject constructor(
             flow {
                 when (it) {
                     Action.LoadUsers -> handleLoadUsers()
-                    is Action.LoadNextUser -> handleLoadNextUser(it.previousUserId)
+                    is Action.LoadNextUser -> handleLoadNextUser(it.previousUser)
                     Action.SetErrorHandled -> emit(state.copy(userResult = UserResult.Idle))
                     is Action.TrackProfileScroll -> analytics.trackProfileScroll(it.scrollPercent, it.id)
                 }
@@ -44,9 +45,9 @@ class MatchMakerViewModel @Inject constructor(
      * Loads the next person from the queue into the view state
      * @param previousUserId the id of the previous person shown before the next person
      */
-    fun loadNextUser(previousUserId: Int) {
+    fun loadNextUser(previousUser: User) {
         analytics.trackNextClick()
-        submitAction(Action.LoadNextUser(previousUserId))
+        submitAction(Action.LoadNextUser(previousUser))
     }
 
     /**
@@ -78,17 +79,19 @@ class MatchMakerViewModel @Inject constructor(
     }
 
     private suspend fun FlowCollector<State>.handleLoadUsers() {
+        if (matchableUsers.isNotEmpty()) return
         emit(state.copy(userResult = UserResult.Loading))
         runCancellableCatching {
             val users = userRepository.getNextUsers()
-            check(users.isNotEmpty()) { }
-            users.let { matchableUsers.addAll(users) }
+            check(users.isNotEmpty())
+            users.also { matchableUsers.addAll(it) }
         }
             .onFailure {
                 Timber.e(it)
                 emit(state.copy(userResult = UserResult.Failed(it)))
             }
             .onSuccess {
+                profilePictureImageLoader.prefetchImages(it.mapNotNull { user -> user.photo })
                 pollUserQueue()
             }
     }
@@ -108,14 +111,15 @@ class MatchMakerViewModel @Inject constructor(
         emit(state.copy(userResult = userResult))
     }
 
-    private suspend fun FlowCollector<State>.handleLoadNextUser(previousUserId: Int) {
-        userRepository.setUserSeen(previousUserId)
+    private suspend fun FlowCollector<State>.handleLoadNextUser(previousUser: User) {
+        userRepository.setUserSeen(previousUser.id)
+        previousUser.photo?.let { profilePictureImageLoader.deleteImage(it) }
         pollUserQueue()
     }
 
     sealed class Action {
         object LoadUsers : Action()
-        class LoadNextUser(val previousUserId: Int) : Action()
+        class LoadNextUser(val previousUser: User) : Action()
         object SetErrorHandled : Action()
         class TrackProfileScroll(val scrollPercent: Int, val id: Int) : Action()
     }
