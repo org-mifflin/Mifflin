@@ -21,7 +21,7 @@ import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
 @VisibleForTesting
-val ConfigRefreshRate = 15.seconds // TODO change this back
+val ConfigRefreshRate = 15.seconds
 private val ConfigRefreshTimeout = 10.seconds
 
 /**

@@ -13,6 +13,12 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.util.concurrent.CancellationException
 
+/**
+ * utility function to wrap asynchronous code with error catching
+ * and return result wrapped in a kotlin [Result]
+ *
+ * does not catch [CancellationException] other than [TimeoutCancellationException]
+ */
 @Suppress("TooGenericExceptionCaught")
 suspend fun <R> runCancellableCatching(block: suspend () -> R): Result<R> {
     return try {
@@ -26,14 +32,10 @@ suspend fun <R> runCancellableCatching(block: suspend () -> R): Result<R> {
     }
 }
 
-fun <T> Result<T>.onCanceled(block: () -> Unit) {
-    this.onFailure {
-        if (it is CancellationException) {
-            block()
-        }
-    }
-}
-
+/**
+ * convenience function to provide a callback for when a coroutine wrapped in a [Result]
+ * timesout
+ */
 fun <T> Result<T>.onTimeout(block: () -> Unit): Result<T> {
     return this.onFailure {
         if (it is TimeoutCancellationException) {
@@ -42,6 +44,14 @@ fun <T> Result<T>.onTimeout(block: () -> Unit): Result<T> {
     }
 }
 
+/**
+ * utility function to wrap asynchronous code with error catching
+ * and return result wrapped in a kotlin [Result]
+ *
+ * @param backOff BackOff object to specify how to handle failure retrys
+ *
+ * does not catch [CancellationException] other than [TimeoutCancellationException]
+ */
 suspend fun <T> runCancellableCatching(
     backOff: Backoff?,
     block: suspend () -> T
@@ -62,6 +72,12 @@ suspend fun <T> runCancellableCatching(
     return runCancellableCatching { block() }
 }
 
+/**
+ * utility function to being collecting a flow when the base LifecycleOwner
+ * reaches the started state and stop when it reaches the stopped state
+ *
+ * catches and logs errors by default
+ */
 inline fun <T> LifecycleOwner.collectWhileStarted(
     flow: Flow<T>,
     crossinline onError: (Throwable) -> Unit = { Timber.e(it) },

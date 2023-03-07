@@ -19,6 +19,8 @@ class OfflineFirstUserRepository @Inject constructor(
     /**
      * fetches the next user batch if the current cached users are empty
      * otherwise returns cached users
+     *
+     * no paging implementation exists now but ideally we support it with a similar flow
      */
     override suspend fun getNextUsers(backoff: Backoff): List<User> {
         val dbResponse = userDao.getUsers()
@@ -36,6 +38,9 @@ class OfflineFirstUserRepository @Inject constructor(
         return dbResponse.map { it.toDomainModel() }
     }
 
+    /**
+     * removes a users details
+     */
     override suspend fun setUserSeen(id: Int) {
         userDao.deleteUser(id)
     }

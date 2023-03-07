@@ -17,6 +17,19 @@ class ProfilePictureImageLoader @Inject constructor(
     @ApplicationContext private val context: Context
 ) {
 
+    val imageLoader by lazy {
+        ImageLoader.Builder(context)
+            .fallback(R.drawable.image_load_failed)
+            .respectCacheHeaders(false)
+            .memoryCachePolicy(CachePolicy.ENABLED)
+            .diskCachePolicy(CachePolicy.ENABLED)
+            .build()
+    }
+
+    /**
+     * prefetches images from a list of urls and stores them in memory and disk
+     * using the url as the key
+     */
     fun prefetchImages(urls: List<String>) {
         urls.map { url ->
             ImageRequest.Builder(context)
@@ -30,18 +43,12 @@ class ProfilePictureImageLoader @Inject constructor(
         }
     }
 
+    /**
+     * removes an image with the given url key from cache
+     */
     @OptIn(ExperimentalCoilApi::class)
     fun deleteImage(url: String) {
         imageLoader.diskCache?.remove(url)
         imageLoader.memoryCache?.remove(MemoryCache.Key(url))
-    }
-
-    val imageLoader by lazy {
-        ImageLoader.Builder(context)
-            .fallback(R.drawable.image_load_failed)
-            .respectCacheHeaders(false)
-            .memoryCachePolicy(CachePolicy.ENABLED)
-            .diskCachePolicy(CachePolicy.ENABLED)
-            .build()
     }
 }

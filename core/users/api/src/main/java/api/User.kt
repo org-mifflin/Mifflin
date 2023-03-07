@@ -1,5 +1,8 @@
 package api
 
+/**
+ * domain model for a user
+ */
 data class User(
     val about: String?,
     val gender: String?,

@@ -4,6 +4,9 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
+/**
+ * main app database
+ */
 @Database(
     entities = [UserEntity::class],
     version = 2,

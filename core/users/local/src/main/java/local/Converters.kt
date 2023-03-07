@@ -5,6 +5,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.lang.reflect.Type
 
+/**
+ * Converter to allow for the conversion of a list to a string and visa versa
+ */
 class Converters {
     @TypeConverter
     fun fromString(value: String): List<String> {

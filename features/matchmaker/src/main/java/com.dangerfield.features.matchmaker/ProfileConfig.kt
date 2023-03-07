@@ -10,15 +10,6 @@ class ProfileConfig @Inject constructor(
     private val appConfig: AppConfig
 ) {
 
-    private val defaultProfileSectionOrder = listOf(
-        ProfileSection.Name,
-        ProfileSection.Photo,
-        ProfileSection.About,
-        ProfileSection.Gender,
-        ProfileSection.School,
-        ProfileSection.Hobbies,
-    )
-
     val profileSectionOrder: List<ProfileSection>
         get() {
             val values = appConfig.value<List<String>>(ProfileOrderKey)
@@ -26,6 +17,13 @@ class ProfileConfig @Inject constructor(
                 ProfileSection.values().find { section -> section.sectionName == it }
             }?.takeIf { it.size == ProfileSection.values().size }
 
-            return sections ?: defaultProfileSectionOrder
+            return sections ?: listOf(
+                ProfileSection.Name,
+                ProfileSection.Photo,
+                ProfileSection.About,
+                ProfileSection.Gender,
+                ProfileSection.School,
+                ProfileSection.Hobbies,
+            )
         }
 }

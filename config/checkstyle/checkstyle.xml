@@ -72,11 +72,7 @@
 
         <!-- Checks for imports -->
         <!-- See http://checkstyle.sf.net/config_import.html -->
-        <module name="AvoidStarImport">
-            <!-- Allow Nielsen Constants allowed b/c it's a bunch of Strings that would be a pain to import one at a time.
-                 Allow Kotlin synthetics so each viewId isn't a single import, only the layout file. -->
-            <property name="excludes" value="com.hulu.metrics.nielsen.NielsenConstants" />
-        </module>
+        <module name="AvoidStarImport"></module>
         <!--module name="AvoidStaticImport"/-->
         <module name="IllegalImport" />
         <module name="RedundantImport" />
@@ -161,12 +157,6 @@
         <!-- See http://checkstyle.sf.net/config_misc.html -->
         <module name="ArrayTypeStyle" />
         <!--module name="FinalParameters"/-->
-        <module name="TodoComment">
-            <!-- Ignore to-do comments that include internal Jira ticket numbers -->
-            <property name="format" value="\bTODO\b((?!DROID-\S).)*$" />
-            <!-- Ignore to-do comments that include one player ticket number -->
-            <property name="format" value="\bTODO\b((?!CPP-\S).)*$" />
-        </module>
         <module name="UpperEll" />
 
     </module>

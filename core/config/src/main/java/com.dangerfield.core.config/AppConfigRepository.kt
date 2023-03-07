@@ -4,6 +4,9 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import com.dangerfield.core.config.api.AppConfig
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Repository to manage fetching and exposing the app config
+ */
 interface AppConfigRepository : DefaultLifecycleObserver {
 
     /**

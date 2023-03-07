@@ -14,6 +14,9 @@ import javax.inject.Inject
 
 private const val ConfigKey = "config"
 
+/**
+ * data store implementation of [ConfigLocalDataSource]
+ */
 class DataStoreConfigDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     gson: Gson
