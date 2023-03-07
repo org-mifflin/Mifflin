@@ -8,13 +8,18 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.dangerfield.core.designsystem.components.BasicButton
+import com.dangerfield.core.designsystem.theme.MifflinTheme
+import com.dangerfield.core.ui.DevicePreviews
+import com.dangerfield.mifflin.features.matchmaker.R
 
 @Composable
 fun NoMoreUsers(
@@ -31,18 +36,14 @@ fun NoMoreUsers(
 
         Column() {
             Text(
-                text = "Uh oh....",
+                text = stringResource(R.string.uh_oh),
                 style = MaterialTheme.typography.displayMedium,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onBackground
             )
             Spacer(modifier = Modifier.height(24.dp))
             Text(
-                text = """
-                    It looks like the only person left is Bob Vance (Vance Refrigeration). 
-                    
-                    Maybe consider looking outside of Scranton.
-                """.trimIndent(),
+                text = stringResource(R.string.out_of_users),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.onBackground
@@ -51,7 +52,17 @@ fun NoMoreUsers(
 
         BasicButton(
             onClick = onReload,
-            text = "Reload"
+            text = stringResource(R.string.reload)
         )
+    }
+}
+
+@Composable
+@DevicePreviews
+fun PreviewNoMoreUsers() {
+    MifflinTheme {
+        Surface {
+            NoMoreUsers({})
+        }
     }
 }

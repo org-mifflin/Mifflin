@@ -1,9 +1,9 @@
 package com.dangerfield.features.matchmaker
 
 import com.dangerfield.core.analytics.AnalyticsTracker
-import com.dangerfield.core.analytics.Event
 import com.dangerfield.core.analytics.Interaction
 import com.dangerfield.core.analytics.InteractionType.Press
+import com.dangerfield.core.analytics.InteractionType.Scroll
 import javax.inject.Inject
 
 class MatchMakerAnalytics @Inject constructor(
@@ -11,11 +11,17 @@ class MatchMakerAnalytics @Inject constructor(
 ) {
 
     fun trackProfileImpression(id: Int) {
-        analyticsTracker.trackPageView(pageName = MatchMakerProfilePageName, extras = mapOf("id" to id))
+        analyticsTracker.trackPageView(pageName = MatchMakerProfilePageName, extras = mapOf(UserId to id))
     }
 
     fun trackProfileScroll(percentScroll: Int, id: Int) {
-        analyticsTracker.trackEvent(Event(mapOf("scrollPosition" to percentScroll, "id" to id)))
+        analyticsTracker.trackInteraction(
+            Interaction(
+                extras = mapOf(ScrollPosition to percentScroll, UserId to id),
+                elementId = ProfileViewId,
+                interactionType = Scroll
+            )
+        )
     }
 
     fun trackNextClick() {
@@ -27,5 +33,8 @@ class MatchMakerAnalytics @Inject constructor(
     companion object {
         const val MatchMakerProfilePageName = "match_maker_profile"
         const val NextButtonId = "next"
+        const val UserId = "id"
+        const val ProfileViewId = "profile_view"
+        const val ScrollPosition = "scrollPosition"
     }
 }

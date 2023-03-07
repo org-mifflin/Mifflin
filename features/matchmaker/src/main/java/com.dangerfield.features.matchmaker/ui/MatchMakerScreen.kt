@@ -13,13 +13,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.semantics.semantics
 import androidx.lifecycle.compose.ExperimentalLifecycleComposeApi
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import api.ProfileSection
 import api.User
 import com.dangerfield.core.common.doNothing
 import com.dangerfield.core.designsystem.theme.MifflinTheme
+import com.dangerfield.core.ui.DevicePreviews
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.State
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Empty
 import com.dangerfield.features.matchmaker.MatchMakerViewModel.UserResult.Failed
@@ -51,7 +52,7 @@ fun MatchMakerScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MatchMakerScreenContent(
+internal fun MatchMakerScreenContent(
     state: State,
     onNext: (prevId: Int) -> Unit,
     onReload: () -> Unit,
@@ -82,7 +83,10 @@ private fun MatchMakerScreenContent(
                 Idle -> doNothing()
                 Empty -> NoMoreUsers(onReload)
                 is Failed -> doNothing()
-                Loading -> CircularProgressIndicator()
+                Loading -> CircularProgressIndicator(
+                    modifier = Modifier.semantics {
+                    }
+                )
                 is Loaded -> UserProfile(
                     status.user,
                     state.profileOrder,
@@ -95,7 +99,7 @@ private fun MatchMakerScreenContent(
 }
 
 @Composable
-@Preview
+@DevicePreviews
 private fun MatchMakerScreenContentPreview() {
     MifflinTheme {
         MatchMakerScreenContent(

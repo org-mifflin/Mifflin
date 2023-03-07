@@ -4,6 +4,9 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     namespace = "com.dangerfield.mifflin.features.matchmaker"
 }
 
@@ -24,12 +27,6 @@ dependencies {
     implementation(libs.coil)
     implementation(libs.timber)
 
-    testImplementation(libs.junit)
     testImplementation(project(":core:test"))
-    testImplementation(libs.turbine)
-    testImplementation(libs.mockk)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.androidx.test.junit)
-    testImplementation(libs.androidx.test.core)
-    testImplementation(libs.google.truth)
+    androidTestImplementation(project(":core:test"))
 }

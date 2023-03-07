@@ -13,6 +13,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    packagingOptions {
+        resources {
+            excludes.add("META-INF/*")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true

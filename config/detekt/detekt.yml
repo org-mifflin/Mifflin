@@ -674,7 +674,7 @@ style:
     active: true
   UnusedPrivateMember:
     active: true
-    ignoreAnnotated: ['Preview']
+    ignoreAnnotated: ['Preview', 'DevicePreviews']
     allowedNames: '(_|ignored|expected|serialVersionUID)'
   UseAnyOrNoneInsteadOfFind:
     active: true

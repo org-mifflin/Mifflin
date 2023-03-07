@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Mifflin</string>
     <string name="global_error_message">Hmm.. Something seems to have gone wrong. Please contact our help desk at help@mifflin.com. %1$s</string>
+    <string name="uh_oh">Uh oh....</string>
+    <string name="retry">Retry</string>
+    <string name="okay">Okay</string>
 </resources>
