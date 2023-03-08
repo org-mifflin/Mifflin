@@ -7,14 +7,14 @@
 
 ## Overview
 
-Mifflin is "The world's best dating app". It is designed with these features in mind: 
+Mifflin is "**The world's best dating app**". It is designed with these features in mind: 
 
-- Offline Functionality - eagerly fetches and caches data while using that local cache as the source of truth and cleaning it up as the user progresses through the data
-- Beautiful Design - maybe it's stolen from the app that's meant to be deleted, maybe it's Maybelline
-- Remote Configuration - provides a configuration stream to features, refreshing every 15 mins, allowing the app experience to be updated on the fly
-- Modularization - got lots of developers? No problem, the modularization cuts down on build time, maintains a separation of concerns, and allows developers to work in parallel
-- Error handling - poor network connectivity? Odd edge case? No problem, there's a fallback for that
-- Neato burrito app architecture - courtesy of the [Guide To App Architecture](https://developer.android.com/topic/modularization), this app aims to follow best practices
+- **Offline Functionality** - eagerly fetches and caches data while using that local cache as the source of truth and cleaning it up as the user progresses through the data
+- **Beautiful Design** - maybe it's stolen from the app that's meant to be deleted, maybe it's Maybelline
+- **Remote Configuration** - provides a configuration stream to features, refreshing every 15 mins, allowing the app experience to be updated on the fly
+- **Modularization** - got lots of developers? No problem, the modularization cuts down on build time, maintains a separation of concerns, and allows developers to work in parallel
+- **Error handling** - poor network connectivity? Odd edge case? No problem, there's a fallback for that
+- **Neato burrito app architecture** - courtesy of the [Guide To App Architecture](https://developer.android.com/topic/modularization), this app aims to follow best practices
 
 
 ## Screenshots
