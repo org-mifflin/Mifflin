@@ -6,7 +6,7 @@
 
 ### Quick Note Before You Read
 
-Im well aware this is a touch over engineered. I recognize that there's a real trade off on any project for the level at which trings are structured and for a small project like this I likely didnt need more than half of whats in here. BUT in ym defense, im trying to show off what I do. I hope you enjoy reading :)
+Im well aware this is a touch over engineered. I recognize that there's a real trade off on any project for the level at which trings are structured and for a small project like this I likely didnt need more than half of whats in here. BUT in my defense, im trying to show off what I do. I hope you enjoy reading :)
 
 This project was build using [this](https://github.com/Elijah-Dangerfield/TemplateApp) template. 
 
