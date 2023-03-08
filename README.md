@@ -105,3 +105,9 @@ We dont want to allow other apps or users with rooted devices to peek into our d
 ### Linting and Tooling
 Assuming we would have a larger developer team it may be worth considering adding tooling and linting to make it easier for developers to create feature and adhere to best practices. 
 
+### Accessibility (a11y)
+A real concern for any app, esspecially app with a larger profile. I'm not entirely educated on this, I added basic content descriptions in this app but I did not walk through it with a screen reader or anything. 
+
+### Crash Reporting
+A no-brainer, just ran out of time (i'm on vacation for a wedding in casablanca). I would've liked to put in sentry ro firebase crashlytics. Only concern with the latter is that we would lose crash reporting for amazon devices IIRC. 
+
