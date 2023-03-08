@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uh_oh">Uh oh....</string>
+
+    <string name="out_of_users">It looks like the only person left is Bob Vance (Vance Refrigeration).\n\nMaybe consider looking outside of Scranton.</string>
+    <string name="reload">Reload</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="hobbies_prompt">My Hobbies Include</string>
+    <string name="gender_identity_prompt">I Identify As</string>
+    <string name="about_me_prompt">A Bit About Me</string>
+    <string name="school_icon_content_description">School of graduation for user</string>
+    <string name="profile_options_content_description">Profile options for %1$s</string>
+    <string name="profile_photo_content_description">Profile photo for %1$s</string>
+    <string name="user">user</string>
+    <string name="next">Next</string>
+    <string name="loading_users_content_description">Loading users in scranton</string>
+
+
+</resources>

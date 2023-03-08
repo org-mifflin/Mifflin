@@ -17,6 +17,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.coil)
+    implementation(libs.timber)
 
     implementation(libs.kotlinx.coroutines)
     implementation(libs.androidx.lifecycle.vm)

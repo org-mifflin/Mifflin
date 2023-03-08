@@ -13,6 +13,12 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    packagingOptions {
+        resources {
+            excludes.add("META-INF/*")
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = true
@@ -37,9 +43,11 @@ android {
 dependencies {
     implementation(libs.androidx.core)
     implementation(libs.androidx.lifecycle.runtime)
+    implementation(libs.androidx.lifecycle.process)
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.lifecycle.runtimeCompose)
+    implementation(libs.androidx.lifecycle.runtime)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.navigation.compose)
@@ -51,11 +59,15 @@ dependencies {
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.kotlinx.coroutines.play.services)
     implementation(libs.javax.inject)
+    implementation(libs.timber)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.junit)
     androidTestImplementation(libs.androidx.compose.ui.test)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
+
+    implementation(libs.coil)
 
     implementation(project(":core:analytics"))
     implementation(project(":core:auth"))
@@ -63,10 +75,10 @@ dependencies {
     implementation(project(":core:config"))
     implementation(project(":core:config:api"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:people"))
-    implementation(project(":core:people:api"))
-    implementation(project(":core:people:local"))
-    implementation(project(":core:people:remote"))
+    implementation(project(":core:users"))
+    implementation(project(":core:users:api"))
+    implementation(project(":core:users:local"))
+    implementation(project(":core:users:remote"))
     implementation(project(":core:session"))
     implementation(project(":core:ui"))
 
@@ -76,4 +88,6 @@ dependencies {
     implementation(project(":features:onboarding"))
     implementation(project(":features:profile"))
     implementation(project(":features:signup"))
+
+    testImplementation(project(":core:test"))
 }

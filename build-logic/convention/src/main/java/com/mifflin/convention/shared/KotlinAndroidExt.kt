@@ -29,6 +29,12 @@ internal fun Project.configureKotlinAndroid(
             isCoreLibraryDesugaringEnabled = true
         }
 
+        packagingOptions {
+            resources {
+                excludes.add("META-INF/*")
+            }
+        }
+
         kotlinOptions {
             // Treat all Kotlin warnings as errors (disabled by default)
             // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties

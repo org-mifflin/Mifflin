@@ -1,5 +1,6 @@
 package com.dangerfield.core.common
 
-fun doNothing() {
+@Suppress("UnusedPrivateMember")
+fun doNothing(vararg input: Any) {
     // do nothing
 }

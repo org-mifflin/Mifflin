@@ -14,11 +14,12 @@ dependencies {
     testImplementation(libs.google.truth)
 
     implementation(libs.androidx.compose.runtime)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.lifecycle.runtimeCompose)
     implementation(libs.androidx.compose.runtime.tracing)
     implementation(libs.androidx.compose.material3.windowSizeClass)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.androidx.navigation.compose)
-    implementation(libs.androidx.compose.foundation)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    implementation(libs.androidx.compose.ui.tooling)
 }

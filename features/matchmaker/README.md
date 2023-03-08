@@ -1,7 +1,7 @@
 # Matchmaker
 
-This module allows the user to iterate through profiles. It leverages the `core:people`
-repository to obtain people for viewing. 
+This module allows the user to iterate through profiles. It leverages the `core:users`
+repository to obtain users for viewing. 
 
 Future Options: 
 - like dislike functionality

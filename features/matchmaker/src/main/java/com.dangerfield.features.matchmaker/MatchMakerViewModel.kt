@@ -1,91 +1,139 @@
 package com.dangerfield.features.matchmaker
 
+import api.ProfileSection
+import api.User
+import api.UserRepository
 import com.dangerfield.core.common.runCancellableCatching
-import com.dangerfield.core.people.api.PeopleRepository
-import com.dangerfield.core.people.api.Person
-import com.dangerfield.core.people.api.ProfileSection
 import com.dangerfield.core.ui.UdfViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
-import java.util.LinkedList
-import java.util.Queue
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
 class MatchMakerViewModel @Inject constructor(
-    private val peopleRepository: PeopleRepository,
-    profileConfig: ProfileConfig
+    private val userRepository: UserRepository,
+    private val analytics: MatchMakerAnalytics,
+    private val profilePictureImageLoader: ProfilePictureImageLoader,
+    profileConfig: ProfileConfig,
 ) : UdfViewModel<MatchMakerViewModel.State, MatchMakerViewModel.Action>() {
 
-    private val potentialMatches: Queue<Person> = LinkedList()
+    private val matchableUsers: MutableSet<User> = LinkedHashSet()
 
-    override val initialState = State(PeopleStatus.Idle, profileConfig.getProfileSectionOrder())
+    override val initialState = State(UserResult.Idle, profileConfig.profileSectionOrder)
 
-    override val initialAction = Action.LoadPeople
+    override val initialAction: Action = Action.LoadUsers
 
     override fun transformActionFlow(actionFlow: Flow<Action>): Flow<State> {
+
         return actionFlow.flatMapMerge {
             flow {
                 when (it) {
-                    Action.LoadPeople -> handleLoadPeople()
-                    is Action.LoadNextPerson -> handleLoadNextPerson(it.previousPersonId)
-                    Action.SetErrorHandled -> emit(state.copy(peopleStatus = PeopleStatus.Idle))
+                    Action.LoadUsers -> handleLoadUsers()
+                    is Action.LoadNextUser -> handleLoadNextUser(it.previousUser)
+                    Action.SetErrorHandled -> emit(state.copy(userResult = UserResult.Idle))
+                    is Action.TrackProfileScroll -> analytics.trackProfileScroll(it.scrollPercent, it.id)
                 }
             }
         }
     }
 
-    fun loadNextPerson(previousPersonId: Int) {
-        submitAction(Action.LoadNextPerson(previousPersonId))
+    /**
+     * Loads the next person from the queue into the view state
+     * @param previousUserId the id of the previous person shown before the next person
+     */
+    fun loadNextUser(previousUser: User) {
+        analytics.trackNextClick()
+        submitAction(Action.LoadNextUser(previousUser))
     }
 
-    fun loadPeople() {
-        submitAction(Action.LoadPeople)
+    /**
+     * Loads users from the repository
+     */
+    fun loadUsers() {
+        submitAction(Action.LoadUsers)
     }
 
+    /**
+     * Marks the People Status error as handled to remove it from the state.
+     * see: https://developer.android.com/topic/architecture/ui-layer/events
+     */
     fun onErrorHandled() {
         submitAction(Action.SetErrorHandled)
     }
 
-    private suspend fun FlowCollector<State>.handleLoadPeople() {
-        emit(state.copy(peopleStatus = PeopleStatus.Loading))
+    /**
+     * Tracks the profile scroll percentage of a profile
+     * @param percentScroll the percentage the user has scrolled (0 = top, 100 = bottom)
+     * @param id the id of the profile being scrolled on
+     *
+     *
+     * This function is an unfortunate workaround to not being able to inject analytics into the view. This is not
+     * inherently the view models responsibility.
+     */
+    fun trackProfileScroll(percentScroll: Int, id: Int) {
+        submitAction(Action.TrackProfileScroll(percentScroll, id))
+    }
+
+    private suspend fun FlowCollector<State>.handleLoadUsers() {
+        if (matchableUsers.isNotEmpty()) return
+        emit(state.copy(userResult = UserResult.Loading))
         runCancellableCatching {
-            val people = peopleRepository.getNextPeople()
-            potentialMatches.addAll(people)
+            val users = userRepository.getNextUsers()
+            check(users.isNotEmpty())
+            users.also { matchableUsers.addAll(it) }
         }
-            .onFailure { emit(state.copy(peopleStatus = PeopleStatus.Failed(it))) }
-            .onSuccess { pollPersonQueue() }
+            .onFailure {
+                Timber.e(it)
+                emit(state.copy(userResult = UserResult.Failed(it)))
+            }
+            .onSuccess {
+                profilePictureImageLoader.prefetchImages(it.mapNotNull { user -> user.photo })
+                pollUserQueue()
+            }
     }
 
-    private suspend fun FlowCollector<State>.pollPersonQueue() {
-        val peopleStatus = potentialMatches.poll()?.let { PeopleStatus.Showing(it) } ?: PeopleStatus.Empty
-        emit(state.copy(peopleStatus = peopleStatus))
+    private suspend fun FlowCollector<State>.pollUserQueue() {
+        val nextUser = matchableUsers.elementAtOrNull(0)
+
+        val userResult = nextUser?.let {
+            matchableUsers.remove(it)
+            UserResult.Loaded(it)
+        } ?: UserResult.Empty
+
+        if (userResult is UserResult.Loaded) {
+            analytics.trackProfileImpression(userResult.user.id)
+        }
+
+        emit(state.copy(userResult = userResult))
     }
 
-    private suspend fun FlowCollector<State>.handleLoadNextPerson(previousPersonId: Int) {
-        peopleRepository.setPersonSeen(previousPersonId)
-        pollPersonQueue()
+    private suspend fun FlowCollector<State>.handleLoadNextUser(previousUser: User) {
+        userRepository.setUserSeen(previousUser.id)
+        previousUser.photo?.let { profilePictureImageLoader.deleteImage(it) }
+        pollUserQueue()
     }
 
     sealed class Action {
-        object LoadPeople : Action()
-        class LoadNextPerson(val previousPersonId: Int) : Action()
+        object LoadUsers : Action()
+        class LoadNextUser(val previousUser: User) : Action()
         object SetErrorHandled : Action()
+        class TrackProfileScroll(val scrollPercent: Int, val id: Int) : Action()
     }
 
-    sealed class PeopleStatus {
-        object Idle : PeopleStatus()
-        object Loading : PeopleStatus()
-        object Empty : PeopleStatus()
-        class Failed(val throwable: Throwable) : PeopleStatus()
-        class Showing(val potentialMatch: Person) : PeopleStatus()
+    sealed class UserResult {
+        object Idle : UserResult()
+        object Loading : UserResult()
+        object Empty : UserResult()
+        class Failed(val throwable: Throwable) : UserResult()
+        class Loaded(val user: User) : UserResult()
     }
 
     data class State(
-        val peopleStatus: PeopleStatus,
+        val userResult: UserResult,
         val profileOrder: List<ProfileSection>,
     )
 }

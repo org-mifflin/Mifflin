@@ -8,8 +8,23 @@ android {
 }
 
 dependencies {
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.timber)
+    implementation(libs.retrofit.gson)
+    implementation(libs.kotlinx.coroutines)
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.androidx.lifecycle.process)
     implementation(project(":core:config:api"))
+    implementation(project(":core:common"))
+
     testImplementation(libs.junit)
+    testImplementation(project(":core:test"))
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.androidx.test.junit)
     testImplementation(libs.androidx.test.core)
     testImplementation(libs.google.truth)

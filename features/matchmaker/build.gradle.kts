@@ -4,13 +4,17 @@ plugins {
 }
 
 android {
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     namespace = "com.dangerfield.mifflin.features.matchmaker"
 }
 
 dependencies {
     implementation(project(":core:ui"))
+    implementation(project(":core:analytics"))
     implementation(project(":core:designsystem"))
-    implementation(project(":core:people:api"))
+    implementation(project(":core:users:api"))
     implementation(project(":core:common"))
     implementation(project(":core:config:api"))
     implementation(libs.androidx.compose.runtime)
@@ -21,9 +25,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.ui.tooling)
     implementation(libs.coil)
+    implementation(libs.timber)
 
-    testImplementation(libs.junit)
-    testImplementation(libs.androidx.test.junit)
-    testImplementation(libs.androidx.test.core)
-    testImplementation(libs.google.truth)
+    testImplementation(project(":core:test"))
+    androidTestImplementation(project(":core:test"))
 }

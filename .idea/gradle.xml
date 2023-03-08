@@ -33,12 +33,13 @@
             <option value="$PROJECT_DIR$/core/config" />
             <option value="$PROJECT_DIR$/core/config/api" />
             <option value="$PROJECT_DIR$/core/designsystem" />
-            <option value="$PROJECT_DIR$/core/people" />
-            <option value="$PROJECT_DIR$/core/people/api" />
-            <option value="$PROJECT_DIR$/core/people/local" />
-            <option value="$PROJECT_DIR$/core/people/remote" />
             <option value="$PROJECT_DIR$/core/session" />
+            <option value="$PROJECT_DIR$/core/test" />
             <option value="$PROJECT_DIR$/core/ui" />
+            <option value="$PROJECT_DIR$/core/users" />
+            <option value="$PROJECT_DIR$/core/users/api" />
+            <option value="$PROJECT_DIR$/core/users/local" />
+            <option value="$PROJECT_DIR$/core/users/remote" />
             <option value="$PROJECT_DIR$/features" />
             <option value="$PROJECT_DIR$/features/auth" />
             <option value="$PROJECT_DIR$/features/auth/api" />
