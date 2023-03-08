@@ -1,11 +1,9 @@
 # Mifflin
+#### "Worlds best dating app". 
 
 
 <img src="https://user-images.githubusercontent.com/45648517/223679189-fc8570b0-9b38-42ce-8876-1d34bc327fd9.png"  width="300" height="300">
 
-Welcome to Mifflin. 
-Not a dating app, a loving app. 
-The app designed to be removed. 
 
 # Screenshots
 
@@ -23,7 +21,7 @@ Note: Before running you will be required to install the git hooks by running `.
 # Architecture
 
 The architecture of this application aims to follow reccomendations outlined in the [Guide To App Architecture](https://developer.android.com/topic/architecture) by: 
-- eunsuring unidirectional dataflow via [UdfViewModel](https://github.com/Elijah-Dangerfield/mifflin/)
+- eunsuring unidirectional dataflow via [UdfViewModel]([https://github.com/Elijah-Dangerfield/mifflin/](https://github.com/Elijah-Dangerfield/Mifflin/blob/main/core/ui/src/main/java/com.dangerfield.core.ui/UdfViewModel.kt))
 - maintaining immutable state
 - maintaining a clear sepearation of concerns between components
 - using lifecycle aware state collection
