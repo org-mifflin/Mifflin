@@ -1,6 +1,6 @@
-# Mifflin
-#### "Worlds best dating app". 
+# Mifflin - "Worlds best dating app"
 
+![](https://img.shields.io/github/v/release/elijah-dangerfield/mifflin?display_name=release)
 
 <img src="https://user-images.githubusercontent.com/45648517/223679189-fc8570b0-9b38-42ce-8876-1d34bc327fd9.png"  width="300" height="300">
 
@@ -36,11 +36,11 @@ The code base is separated into `core`, `feature` and `app` modules. The app mod
 
 Both Feature and Core modules may contain a submodule `api` used to encapsulate its intneral logic should another module wish to leverage it. Leveraging an api module will ensure that clients of that api do not need rebuilding if the implementation details change a bit. It also helps create a stronger seperation of concerns between the modules. 
 
-Rules:
+### Rules:
 - A feature module should never depend on another feature module directly, only to an api of that module. Preffer to have navigaiton interfaced out and handled in the app module. 
 - A feature module may depend on core modules and or core api modules
 - A core module may not depend on any modules other than core api modules 
--
+
 
 Additionally I leverage a `build-logic` included build with convention plugins to cut down on build time and make the build process easier to understand and update
 
