@@ -72,6 +72,12 @@ Mifflin local data as a source of truth enabling users to continue browsing whil
 ## CI/CD
 
 This project includes a basic yet opinionated CI/CD system leveraging Github Actions.
+On every PR we check:
+
+- **build** - ensures the app isnt broken
+- **style** - static code analysis that keeps that smelly code out
+- **test** - runs all tests to make sure things are smoother than a fresh jar of skippy
+
 The workflows for these can be found under `.github/workflows`
 To read more about the CI/CD of this project visit the [documentation](https://github.com/Elijah-Dangerfield/mifflin/blob/main/docs/ci.md)
 
