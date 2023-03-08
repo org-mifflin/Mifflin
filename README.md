@@ -76,7 +76,7 @@ In this case our backend is static. But in my mind I could see us using cursor p
 
 Absolutely out of scope here but I imagine we would want to notify users of their matches. In my mind I picture push notifications for users with the app not in the for ground and then observing Sever Sent Events to display an in-app notification for users with the app in the foreground. 
 
-Other options for in app messaging include polling (short and long) and maybe web sockets. I don't have any expereince with SSE's but from what I here they fit this use case better than polling for web sockets. 
+Other options for in app messaging include polling (short and long) and maybe web sockets. I don't have any expereince with SSE's but from what I here they fit this use case better than polling or web sockets. 
 
 ### Analytics
 
