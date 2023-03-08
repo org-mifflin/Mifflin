@@ -79,7 +79,7 @@ class MatchMakerViewModel @Inject constructor(
     }
 
     private suspend fun FlowCollector<State>.handleLoadUsers() {
-        if (matchableUsers.isNotEmpty()) return
+        if (matchableUsers.isNotEmpty() || state.userResult is UserResult.Loading) return
         emit(state.copy(userResult = UserResult.Loading))
         runCancellableCatching {
             val users = userRepository.getNextUsers()
