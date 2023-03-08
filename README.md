@@ -42,6 +42,18 @@ The architecture of this application aims to follow recommendations outlined in 
 - using lifecycle-aware state collection
 - leveraging dependency injection with Hilt
 
+The view level architecture aims to follow a loose MVI structure without bloat code (reducers, side effect handlers, and stores). So really its just MVVM with actions to state UDF. 
+
+## Tech stack
+- compose - because I like to learn new things
+- retrofit - because I love jake wharton
+- coil - image fetching and caching
+- coroutines/flow (flowroutines) - concurrency and reactive programming
+- datastore - config caching
+- room - user data caching
+- Timber - lightweight logging
+- Github actions - CI/CD
+- Hilt - Dependency injection
 
 ## Modularization
 
