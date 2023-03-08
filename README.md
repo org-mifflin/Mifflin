@@ -1,6 +1,6 @@
 # Mifflin - "Worlds best dating app"
 
-![](https://img.shields.io/github/v/release/elijah-dangerfield/mifflin?display_name=release)
+![](https://img.shields.io/github/v/release/Elijah-Dangerfield/Mifflin)
 
 <img src="https://user-images.githubusercontent.com/45648517/223679189-fc8570b0-9b38-42ce-8876-1d34bc327fd9.png"  width="300" height="300">
 
