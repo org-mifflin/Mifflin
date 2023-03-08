@@ -12,13 +12,14 @@
 ## How to run
 
 To just play with the app you can find apks and aabs attached to the latest [release](https://github.com/Elijah-Dangerfield/Mifflin/releases)
-and can sideload them using `adb install PATH_TO_APK`
+and can sideload them (if youre cool) using `adb install PATH_TO_APK`
 
 Otherwise you can open the code base in android studio and run from there
 
-
-     Note: Before running you will be required to install the git hooks by running `./scripts/intsall-git-hooks.sh`
-
+```
+Note: Before running you will be required to install the git hooks by running `./scripts/intsall-git-hooks.sh`. 
+Sorry, can't risk any smelly ugly code getting past my code analysis
+```
 
 ## Architecture
 
@@ -70,6 +71,16 @@ Some of these are inspired by the book [Mobile Engineering At Scale](https://www
 ### Paging
 
 In this case our backend is static. But in my mind I could see us using cursor paging to continually get the next batch of users. We might do this when there are X users left in the queue. 
+
+### Sever Sent Events and Push Notifications
+
+Absolutely out of scope here but I imagine we would want to notify users of their matches. In my mind I picture push notifications for users with the app not in the for ground and then observing Sever Sent Events to display an in-app notification for users with the app in the foreground. 
+
+Other options for in app messaging include polling (short and long) and maybe web sockets. I don't have any expereince with SSE's but from what I here they fit this use case better than polling for web sockets. 
+
+### Analytics
+
+I've made some fake analytics calls to represent this but in my head some folks are going to want that sweet sweet data. 
 
 ### KPI's
 I would've liked to consider adding KPI's that inform developers on their work. I think that's an important part of the day to day. Seeing the real impact of your work is important. Perhaps some of these: 
