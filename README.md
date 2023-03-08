@@ -4,6 +4,11 @@
 
 <img src="https://user-images.githubusercontent.com/45648517/223679189-fc8570b0-9b38-42ce-8876-1d34bc327fd9.png"  width="300" height="300">
 
+### Quick Note Before You Read
+
+Im well aware this is a touch over engineered. I recognize that there's a real trade off on any project for the level at which trings are structured and for a small project like this I likely didnt need more than half of whats in here. BUT in ym defense, im trying to show off what I do. I hope you enjoy reading :)
+
+This project was build using [this](https://github.com/Elijah-Dangerfield/TemplateApp) template. 
 
 ## Overview
 
@@ -102,7 +107,7 @@ Some of these are inspired by the book [Mobile Engineering At Scale](https://www
 
 In this case, our backend is static. But in my mind, I could see us using cursor paging to continually get the next batch of users. We might do this when there are X users left in the queue. 
 
-### Sever Sent Events and Push Notifications
+### Server Sent Events and Push Notifications
 
 Absolutely out of scope here but we would want to notify users of their matches. In my mind, I picture push notifications for users with the app not in the foreground and then observe Server-Sent Events to display an in-app message for users with the app in the foreground. 
 
