@@ -94,7 +94,7 @@ I would've liked to consider adding KPI's that inform developers on their work. 
   - app deletion lead time
 
 ### Localization
-This is an underrtated concern with any app that scales. There are lots of ways to handle it. I've considered it out of scope here. 
+This is an underrtated concern with any app that scales. There are lots of ways to handle it. I'm fairly uneducated on this topic to be honest and so I've considered it out of scope here. 
 
 ### Encrypted network communications 
 It looks like the server doesnt have an SSL certificate so I had to allow for clear text traffic. I ended up just making a configuration to only allow it for the one addess provided to at least midigate that risk.
