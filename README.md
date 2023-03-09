@@ -34,7 +34,7 @@ and can sideload them (if you're cool) using `adb install PATH_TO_APK`
 Otherwise, you can open the code base in android studio and run from there
 
 ```
-Note: Before running you will be required to install the git hooks by running `./scripts/intsall-git-hooks.sh`. 
+Note: Before running you will be required to install the git hooks by running `./scripts/install-git-hooks.sh`. 
 Sorry, can't risk any smelly ugly code getting past my code analysis
 ```
 
