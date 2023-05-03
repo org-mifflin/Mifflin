@@ -1,0 +1,17 @@
+name: Add Release Team to PR
+
+on:
+  pull_request:
+    types: [opened]
+    branches:
+      - 'release-*'
+
+jobs:
+  add-reviewers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add Reviewers
+        uses: peter-evans/add-reviewers@v1
+        with:
+          reviewers: elijah-dangerfield
+          github-token: ${{ secrets.GITHUB_TOKEN }}
