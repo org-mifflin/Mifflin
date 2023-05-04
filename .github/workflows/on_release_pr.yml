@@ -10,8 +10,10 @@ jobs:
   add-reviewers:
     runs-on: ubuntu-latest
     steps:
-      - name: Add Reviewers
-        uses: peter-evans/add-reviewers@v1
+      - name: Add Release Team Reviewers
+        uses: madrapps/add-reviewers@v1
         with:
+          token: ${{ secrets.GITHUB_TOKEN }}
           reviewers: elijah-dangerfield
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          re-request-when-approved: true
+          re-request-when-changes-requested: true
