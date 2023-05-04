@@ -36,7 +36,5 @@ class DefaultConfig @Inject constructor(
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : Any> value(path: String): T? {
-        return map[path] as? T
-    }
+    override fun <T : Any> value(path: String): T? = map[path] as? T
 }
