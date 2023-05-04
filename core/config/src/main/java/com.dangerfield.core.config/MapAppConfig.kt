@@ -8,7 +8,5 @@ import com.dangerfield.core.config.api.AppConfig
 class MapAppConfig(private val map: Map<String, Any> = mutableMapOf()) : AppConfig {
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : Any> value(path: String): T? {
-        return map[path] as? T
-    }
+    override fun <T : Any> value(path: String): T? = map[path] as? T
 }
