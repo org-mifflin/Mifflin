@@ -9,6 +9,8 @@ on:
 jobs:
   add-reviewers:
     runs-on: ubuntu-latest
+    if: |
+      ${{ github.actor }}" != "elijah-dangerfield"
     steps:
       - name: Add Release Team Reviewers
         uses: madrapps/add-reviewers@v1
