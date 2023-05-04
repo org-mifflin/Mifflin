@@ -10,13 +10,13 @@ jobs:
   add-reviewers:
     runs-on: ubuntu-latest
     if: |
-      !contains(github.event.pull_request.user.login,'elijah-dangerfield') &&
-      !contains(github.event.pull_request.user.login,'elijah-dangerfield')
+      !contains(github.event.pull_request.user.login,'test') &&
+      !contains(github.event.pull_request.user.login,'rock')
     steps:
       - name: Add Release Team Reviewers
         uses: madrapps/add-reviewers@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: elijah-dangerfield
+          reviewers: eli.dangerfield
           re-request-when-approved: true
           re-request-when-changes-requested: true
