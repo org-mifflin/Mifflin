@@ -1,4 +1,4 @@
-name: Add Release Team to PR
+name: Add Release Team As Reviewer
 
 on:
   pull_request:
@@ -9,14 +9,6 @@ on:
 jobs:
   add-reviewers:
     runs-on: ubuntu-latest
-    if: |
-      !contains(github.event.pull_request.user.login,'test') &&
-      !contains(github.event.pull_request.user.login,'rock')
     steps:
-      - name: Add Release Team Reviewers
-        uses: madrapps/add-reviewers@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          reviewers: eli.dangerfield
-          re-request-when-approved: true
-          re-request-when-changes-requested: true
+      - name: Add Release Team As Reviewer
+        run: ./scripts/add_release_team_reviewers.main.kts ${{ secrets.GITHUB_TOKEN }} ${{ github.event.pull_request.number }}
